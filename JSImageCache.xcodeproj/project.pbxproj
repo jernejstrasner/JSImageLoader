@@ -23,14 +23,14 @@
 		1918BDF0138A5B8C0097B25C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1918BDF2138A5B8C0097B25C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1918BDF4138A5B8C0097B25C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		1918BDF8138A5B8C0097B25C /* JSImageCache-Info.plist */ = {isa = PBXFileReference; path = "JSImageCache-Info.plist"; sourceTree = "<group>"; };
+		1918BDF8138A5B8C0097B25C /* JSImageCache-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JSImageCache-Info.plist"; sourceTree = "<group>"; };
 		1918BDFA138A5B8C0097B25C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1918BDFC138A5B8C0097B25C /* JSImageCache-Prefix.pch */ = {isa = PBXFileReference; path = "JSImageCache-Prefix.pch"; sourceTree = "<group>"; };
+		1918BDFC138A5B8C0097B25C /* JSImageCache-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSImageCache-Prefix.pch"; sourceTree = "<group>"; };
 		1918BDFD138A5B8C0097B25C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1918BDFF138A5B8C0097B25C /* JSImageCacheAppDelegate.h */ = {isa = PBXFileReference; path = JSImageCacheAppDelegate.h; sourceTree = "<group>"; };
+		1918BDFF138A5B8C0097B25C /* JSImageCacheAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSImageCacheAppDelegate.h; sourceTree = "<group>"; };
 		1918BE00138A5B8C0097B25C /* JSImageCacheAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSImageCacheAppDelegate.m; sourceTree = "<group>"; };
 		1918BE03138A5B8C0097B25C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		1918BE05138A5B8C0097B25C /* RootViewController.h */ = {isa = PBXFileReference; path = RootViewController.h; sourceTree = "<group>"; };
+		1918BE05138A5B8C0097B25C /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		1918BE06138A5B8C0097B25C /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		1918BE09138A5B8C0097B25C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
