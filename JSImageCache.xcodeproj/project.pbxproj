@@ -1,0 +1,283 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1918BDF1138A5B8C0097B25C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1918BDF0138A5B8C0097B25C /* UIKit.framework */; };
+		1918BDF3138A5B8C0097B25C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1918BDF2138A5B8C0097B25C /* Foundation.framework */; };
+		1918BDF5138A5B8C0097B25C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1918BDF4138A5B8C0097B25C /* CoreGraphics.framework */; };
+		1918BDFB138A5B8C0097B25C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1918BDF9138A5B8C0097B25C /* InfoPlist.strings */; };
+		1918BDFE138A5B8C0097B25C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BDFD138A5B8C0097B25C /* main.m */; };
+		1918BE01138A5B8C0097B25C /* JSImageCacheAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE00138A5B8C0097B25C /* JSImageCacheAppDelegate.m */; };
+		1918BE04138A5B8C0097B25C /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1918BE02138A5B8C0097B25C /* MainWindow.xib */; };
+		1918BE07138A5B8C0097B25C /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE06138A5B8C0097B25C /* RootViewController.m */; };
+		1918BE0A138A5B8C0097B25C /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1918BE08138A5B8C0097B25C /* RootViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1918BDEC138A5B8C0097B25C /* JSImageCache.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSImageCache.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1918BDF0138A5B8C0097B25C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1918BDF2138A5B8C0097B25C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1918BDF4138A5B8C0097B25C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1918BDF8138A5B8C0097B25C /* JSImageCache-Info.plist */ = {isa = PBXFileReference; path = "JSImageCache-Info.plist"; sourceTree = "<group>"; };
+		1918BDFA138A5B8C0097B25C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1918BDFC138A5B8C0097B25C /* JSImageCache-Prefix.pch */ = {isa = PBXFileReference; path = "JSImageCache-Prefix.pch"; sourceTree = "<group>"; };
+		1918BDFD138A5B8C0097B25C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1918BDFF138A5B8C0097B25C /* JSImageCacheAppDelegate.h */ = {isa = PBXFileReference; path = JSImageCacheAppDelegate.h; sourceTree = "<group>"; };
+		1918BE00138A5B8C0097B25C /* JSImageCacheAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSImageCacheAppDelegate.m; sourceTree = "<group>"; };
+		1918BE03138A5B8C0097B25C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		1918BE05138A5B8C0097B25C /* RootViewController.h */ = {isa = PBXFileReference; path = RootViewController.h; sourceTree = "<group>"; };
+		1918BE06138A5B8C0097B25C /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		1918BE09138A5B8C0097B25C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1918BDE9138A5B8C0097B25C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1918BDF1138A5B8C0097B25C /* UIKit.framework in Frameworks */,
+				1918BDF3138A5B8C0097B25C /* Foundation.framework in Frameworks */,
+				1918BDF5138A5B8C0097B25C /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1918BDE1138A5B8C0097B25C = {
+			isa = PBXGroup;
+			children = (
+				1918BDF6138A5B8C0097B25C /* JSImageCache */,
+				1918BDEF138A5B8C0097B25C /* Frameworks */,
+				1918BDED138A5B8C0097B25C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1918BDED138A5B8C0097B25C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1918BDEC138A5B8C0097B25C /* JSImageCache.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1918BDEF138A5B8C0097B25C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1918BDF0138A5B8C0097B25C /* UIKit.framework */,
+				1918BDF2138A5B8C0097B25C /* Foundation.framework */,
+				1918BDF4138A5B8C0097B25C /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1918BDF6138A5B8C0097B25C /* JSImageCache */ = {
+			isa = PBXGroup;
+			children = (
+				1918BDFF138A5B8C0097B25C /* JSImageCacheAppDelegate.h */,
+				1918BE00138A5B8C0097B25C /* JSImageCacheAppDelegate.m */,
+				1918BE02138A5B8C0097B25C /* MainWindow.xib */,
+				1918BE05138A5B8C0097B25C /* RootViewController.h */,
+				1918BE06138A5B8C0097B25C /* RootViewController.m */,
+				1918BE08138A5B8C0097B25C /* RootViewController.xib */,
+				1918BDF7138A5B8C0097B25C /* Supporting Files */,
+			);
+			path = JSImageCache;
+			sourceTree = "<group>";
+		};
+		1918BDF7138A5B8C0097B25C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1918BDF8138A5B8C0097B25C /* JSImageCache-Info.plist */,
+				1918BDF9138A5B8C0097B25C /* InfoPlist.strings */,
+				1918BDFC138A5B8C0097B25C /* JSImageCache-Prefix.pch */,
+				1918BDFD138A5B8C0097B25C /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1918BDEB138A5B8C0097B25C /* JSImageCache */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1918BE0D138A5B8C0097B25C /* Build configuration list for PBXNativeTarget "JSImageCache" */;
+			buildPhases = (
+				1918BDE8138A5B8C0097B25C /* Sources */,
+				1918BDE9138A5B8C0097B25C /* Frameworks */,
+				1918BDEA138A5B8C0097B25C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JSImageCache;
+			productName = JSImageCache;
+			productReference = 1918BDEC138A5B8C0097B25C /* JSImageCache.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1918BDE3138A5B8C0097B25C /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1918BDE6138A5B8C0097B25C /* Build configuration list for PBXProject "JSImageCache" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1918BDE1138A5B8C0097B25C;
+			productRefGroup = 1918BDED138A5B8C0097B25C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1918BDEB138A5B8C0097B25C /* JSImageCache */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1918BDEA138A5B8C0097B25C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1918BDFB138A5B8C0097B25C /* InfoPlist.strings in Resources */,
+				1918BE04138A5B8C0097B25C /* MainWindow.xib in Resources */,
+				1918BE0A138A5B8C0097B25C /* RootViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1918BDE8138A5B8C0097B25C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1918BDFE138A5B8C0097B25C /* main.m in Sources */,
+				1918BE01138A5B8C0097B25C /* JSImageCacheAppDelegate.m in Sources */,
+				1918BE07138A5B8C0097B25C /* RootViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1918BDF9138A5B8C0097B25C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1918BDFA138A5B8C0097B25C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1918BE02138A5B8C0097B25C /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1918BE03138A5B8C0097B25C /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		1918BE08138A5B8C0097B25C /* RootViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1918BE09138A5B8C0097B25C /* en */,
+			);
+			name = RootViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1918BE0B138A5B8C0097B25C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1918BE0C138A5B8C0097B25C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		1918BE0E138A5B8C0097B25C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JSImageCache/JSImageCache-Prefix.pch";
+				INFOPLIST_FILE = "JSImageCache/JSImageCache-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1918BE0F138A5B8C0097B25C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "JSImageCache/JSImageCache-Prefix.pch";
+				INFOPLIST_FILE = "JSImageCache/JSImageCache-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1918BDE6138A5B8C0097B25C /* Build configuration list for PBXProject "JSImageCache" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1918BE0B138A5B8C0097B25C /* Debug */,
+				1918BE0C138A5B8C0097B25C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1918BE0D138A5B8C0097B25C /* Build configuration list for PBXNativeTarget "JSImageCache" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1918BE0E138A5B8C0097B25C /* Debug */,
+				1918BE0F138A5B8C0097B25C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1918BDE3138A5B8C0097B25C /* Project object */;
+}
