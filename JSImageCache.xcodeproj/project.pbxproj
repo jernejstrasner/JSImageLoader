@@ -20,6 +20,11 @@
 		1918BE1A138A5CD40097B25C /* CachedImageClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE14138A5CD40097B25C /* CachedImageClient.m */; };
 		1918BE1B138A5CD40097B25C /* DiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE16138A5CD40097B25C /* DiskCache.m */; };
 		1918BE1C138A5CD40097B25C /* NSString-Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE18138A5CD40097B25C /* NSString-Crypto.m */; };
+		193557C4138BB96900C9B018 /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 193557AA138BB96900C9B018 /* CHANGELOG.md */; };
+		193557C5138BB96900C9B018 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557AC138BB96900C9B018 /* JSONKit.m */; };
+		193557C6138BB96900C9B018 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 193557AD138BB96900C9B018 /* README.md */; };
+		193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557D0138BBABA00C9B018 /* NSObject+Threading.m */; };
+		193557E2138BC60E00C9B018 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557E1138BC60E00C9B018 /* ImageCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,13 +43,21 @@
 		1918BE06138A5B8C0097B25C /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		1918BE09138A5B8C0097B25C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
 		1918BE11138A5CD40097B25C /* CachedImageLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedImageLoader.h; sourceTree = "<group>"; };
-		1918BE12138A5CD40097B25C /* CachedImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedImageLoader.m; sourceTree = "<group>"; };
+		1918BE12138A5CD40097B25C /* CachedImageLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedImageLoader.m; sourceTree = "<group>"; wrapsLines = 0; };
 		1918BE13138A5CD40097B25C /* CachedImageClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CachedImageClient.h; sourceTree = "<group>"; };
 		1918BE14138A5CD40097B25C /* CachedImageClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CachedImageClient.m; sourceTree = "<group>"; };
 		1918BE15138A5CD40097B25C /* DiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiskCache.h; sourceTree = "<group>"; };
 		1918BE16138A5CD40097B25C /* DiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiskCache.m; sourceTree = "<group>"; };
 		1918BE17138A5CD40097B25C /* NSString-Crypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-Crypto.h"; sourceTree = "<group>"; };
 		1918BE18138A5CD40097B25C /* NSString-Crypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-Crypto.m"; sourceTree = "<group>"; };
+		193557AA138BB96900C9B018 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG.md; sourceTree = "<group>"; };
+		193557AB138BB96900C9B018 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		193557AC138BB96900C9B018 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		193557AD138BB96900C9B018 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		193557CF138BBAB900C9B018 /* NSObject+Threading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Threading.h"; sourceTree = "<group>"; };
+		193557D0138BBABA00C9B018 /* NSObject+Threading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Threading.m"; sourceTree = "<group>"; };
+		193557E0138BC60E00C9B018 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
+		193557E1138BC60E00C9B018 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +104,7 @@
 		1918BDF6138A5B8C0097B25C /* JSImageCache */ = {
 			isa = PBXGroup;
 			children = (
+				19355785138BB96900C9B018 /* JSONKit */,
 				1918BE10138A5CC50097B25C /* JSImageCache */,
 				1918BDFF138A5B8C0097B25C /* JSImageCacheAppDelegate.h */,
 				1918BE00138A5B8C0097B25C /* JSImageCacheAppDelegate.m */,
@@ -98,6 +112,10 @@
 				1918BE05138A5B8C0097B25C /* RootViewController.h */,
 				1918BE06138A5B8C0097B25C /* RootViewController.m */,
 				1918BE08138A5B8C0097B25C /* RootViewController.xib */,
+				193557E0138BC60E00C9B018 /* ImageCell.h */,
+				193557E1138BC60E00C9B018 /* ImageCell.m */,
+				193557CF138BBAB900C9B018 /* NSObject+Threading.h */,
+				193557D0138BBABA00C9B018 /* NSObject+Threading.m */,
 				1918BDF7138A5B8C0097B25C /* Supporting Files */,
 			);
 			path = JSImageCache;
@@ -128,6 +146,17 @@
 			);
 			name = JSImageCache;
 			sourceTree = "<group>";
+		};
+		19355785138BB96900C9B018 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				193557AA138BB96900C9B018 /* CHANGELOG.md */,
+				193557AB138BB96900C9B018 /* JSONKit.h */,
+				193557AC138BB96900C9B018 /* JSONKit.m */,
+				193557AD138BB96900C9B018 /* README.md */,
+			);
+			path = JSONKit;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -179,6 +208,8 @@
 				1918BDFB138A5B8C0097B25C /* InfoPlist.strings in Resources */,
 				1918BE04138A5B8C0097B25C /* MainWindow.xib in Resources */,
 				1918BE0A138A5B8C0097B25C /* RootViewController.xib in Resources */,
+				193557C4138BB96900C9B018 /* CHANGELOG.md in Resources */,
+				193557C6138BB96900C9B018 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +227,9 @@
 				1918BE1A138A5CD40097B25C /* CachedImageClient.m in Sources */,
 				1918BE1B138A5CD40097B25C /* DiskCache.m in Sources */,
 				1918BE1C138A5CD40097B25C /* NSString-Crypto.m in Sources */,
+				193557C5138BB96900C9B018 /* JSONKit.m in Sources */,
+				193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */,
+				193557E2138BC60E00C9B018 /* ImageCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +342,7 @@
 				1918BE0F138A5B8C0097B25C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

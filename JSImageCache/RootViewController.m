@@ -1,3 +1,23 @@
+/*
+ Copyright (c) 2011 Jernej Strasner
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ and associated documentation files (the "Software"), to deal in the Software without restriction,
+ including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+ is furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all copies or
+ substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+ INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+ PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+ FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+ 
+ */
 //
 //  RootViewController.m
 //  JSImageCache
@@ -8,40 +28,45 @@
 
 #import "RootViewController.h"
 
+#import "NSObject+Threading.h"
+#import "JSONKit.h"
+
+#import "ImageCell.h"
+
 @implementation RootViewController
 
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	
+	self.title = @"Flickr";
+	
+	self.tableView.rowHeight = 64.0f;
+	
+	if (!cachedImageLoader) {
+		cachedImageLoader = [[CachedImageLoader alloc] init];
+	}
+	
+	[self performBlockInBackground:^(void) {
+		NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://api.flickr.com/services/feeds/photos_public.gne?format=json"] encoding:NSUTF8StringEncoding error:nil];
+		// Fix the invalid flickr JSON
+		jsonString = [jsonString stringByReplacingCharactersInRange:NSMakeRange(0, 15) withString:@""];
+		jsonString = [jsonString stringByReplacingCharactersInRange:NSMakeRange([jsonString length]-1, 1) withString:@""];
+		jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\'" withString:@"'"];
+		// Create an object from the JSON
+		NSError *error = nil;
+		NSDictionary *obj = [jsonString objectFromJSONStringWithParseOptions:0 error:&error];
+		NSLog(@"%@", obj);
+		if (error == nil) {
+			[self performBlockOnMainThread:^(void) {
+				data = [[obj valueForKey:@"items"] retain];
+				[self.tableView reloadData];
+			}];
+		} else {
+			NSLog(@"%@", [error localizedDescription]);
+		}
+	}];
 }
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
-/*
- // Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	// Return YES for supported orientations.
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
- */
 
 // Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -51,7 +76,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 0;
+	return [data count];
 }
 
 // Customize the appearance of table view cells.
@@ -59,65 +84,21 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ImageCell *cell = (ImageCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[ImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
-	// Configure the cell.
+	NSDictionary *obj = [data objectAtIndex:indexPath.row];
+	cell.imageLoader = cachedImageLoader;
+	cell.imageURL = [obj valueForKeyPath:@"media.m"];
+	cell.textLabel.text = [obj valueForKey:@"title"];
+	
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }
-    else if (editingStyle == UITableViewCellEditingStyleInsert)
-    {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    /*
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-    // ...
-    // Pass the selected object to the new view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
-	*/
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,6 +119,9 @@
 
 - (void)dealloc
 {
+	[data release];
+	[cachedImageLoader cancelImageDownloads];
+	[cachedImageLoader release];
     [super dealloc];
 }
 
