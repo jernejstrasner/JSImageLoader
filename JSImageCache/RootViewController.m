@@ -47,6 +47,7 @@
 		cachedImageLoader = [[CachedImageLoader alloc] init];
 	}
 	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	[self performBlockInBackground:^(void) {
 		NSString *jsonString = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://api.flickr.com/services/feeds/photos_public.gne?format=json"] encoding:NSUTF8StringEncoding error:nil];
 		// Fix the invalid flickr JSON
@@ -61,9 +62,13 @@
 			[self performBlockOnMainThread:^(void) {
 				data = [[obj valueForKey:@"items"] retain];
 				[self.tableView reloadData];
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 			}];
 		} else {
 			NSLog(@"%@", [error localizedDescription]);
+			[self performBlockOnMainThread:^(void) {
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+			}];
 		}
 	}];
 }

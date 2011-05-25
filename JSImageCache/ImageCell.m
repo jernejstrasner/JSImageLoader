@@ -21,8 +21,6 @@
 	[imageURL release];
 	imageURL = [url retain];
 	
-	NSLog(@"Image URL: %@", url);
-	
 	// Clear any existing image
 	self.imageView.image = nil;
 	
@@ -58,7 +56,7 @@
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	imageView.frame = CGRectMake(5.0f, 5.0f, 54.0f, 54.0f);
-	self.textLabel.frame = CGRectMake(64.0f, 5.0f, 271.0f, 54.0f);
+	self.textLabel.frame = CGRectMake(64.0f, 5.0f, 251.0f, 54.0f);
 }
 
 #pragma mark - CachedImageConsumer
