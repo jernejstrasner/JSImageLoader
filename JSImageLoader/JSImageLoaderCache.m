@@ -26,20 +26,20 @@
 //  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
-#import "DiskCache.h"
+#import "JSImageLoaderCache.h"
 
 #import "NSString-Crypto.h"
 
-static DiskCache *sharedInstance_ = nil;
+#import <libkern/OSAtomic.h>
 
-@interface DiskCache (Privates)
+@interface JSImageLoaderCache (Privates)
 
 - (void)trimDiskCacheFilesToMaxSize:(NSUInteger)targetBytes;
 
 @end
 
 
-@implementation DiskCache
+@implementation JSImageLoaderCache
 
 @synthesize sizeOfCache, cacheDir;
 
@@ -56,13 +56,21 @@ static DiskCache *sharedInstance_ = nil;
 
 #pragma mark Singleton
 
-+ (DiskCache *)sharedCache {
-    @synchronized (self) {
-        if (sharedInstance_ == nil) {
-            sharedInstance_ = [[DiskCache alloc] init];
-        }
-    }
-    return sharedInstance_;
+/*
+ * Singleton pattern by Louis Gerbarg
+ * http://stackoverflow.com/questions/145154/what-does-your-objective-c-singleton-look-like/2449664#2449664
+ */
+
+static void * volatile sharedInstance = nil;
+
++ (JSImageLoaderCache *)sharedCache {
+	while (!sharedInstance) {
+		JSImageLoaderCache *temp = [[self alloc] init];
+		if(!OSAtomicCompareAndSwapPtrBarrier(0x0, temp, &sharedInstance)) {
+			[temp release];
+		}
+	}
+	return sharedInstance;
 }
 
 #pragma mark Paths

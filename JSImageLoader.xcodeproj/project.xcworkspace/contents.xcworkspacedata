@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:JSImageCache.xcodeproj">
+      location = "self:JSImageLoader.xcodeproj">
    </FileRef>
 </Workspace>

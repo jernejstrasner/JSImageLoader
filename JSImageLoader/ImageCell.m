@@ -30,7 +30,7 @@
 	[imageClient release];
 	
 	// Create a new client object
-	imageClient = [[CachedImageClient alloc] init];
+	imageClient = [[JSImageLoaderClient alloc] init];
 	imageClient.request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15.0];
 	imageClient.client = self;
 	// Start the image fetch
@@ -61,7 +61,7 @@
 
 #pragma mark - CachedImageConsumer
 
-- (void)renderImage:(UIImage *)image forClient:(CachedImageClient *)client {
+- (void)renderImage:(UIImage *)image forClient:(JSImageLoaderClient *)client {
 	// Check if the request is coming from the right client
 	if (client == imageClient) {
 		// Render the image

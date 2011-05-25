@@ -26,14 +26,14 @@
 //  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
-#import "CachedImageLoader.h"
+#import "JSImageLoader.h"
 
 #import <UIKit/UIKit.h>
 
 @interface RootViewController : UITableViewController {
 	NSArray *data;
 	
-	CachedImageLoader *cachedImageLoader;
+	JSImageLoader *cachedImageLoader;
 }
 
 

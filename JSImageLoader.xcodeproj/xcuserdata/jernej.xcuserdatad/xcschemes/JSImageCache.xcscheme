@@ -14,9 +14,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1918BDEB138A5B8C0097B25C"
-               BuildableName = "JSImageCache.app"
-               BlueprintName = "JSImageCache"
-               ReferencedContainer = "container:JSImageCache.xcodeproj">
+               BuildableName = "JSImageLoader.app"
+               BlueprintName = "JSImageLoader"
+               ReferencedContainer = "container:JSImageLoader.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -41,9 +41,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1918BDEB138A5B8C0097B25C"
-            BuildableName = "JSImageCache.app"
-            BlueprintName = "JSImageCache"
-            ReferencedContainer = "container:JSImageCache.xcodeproj">
+            BuildableName = "JSImageLoader.app"
+            BlueprintName = "JSImageLoader"
+            ReferencedContainer = "container:JSImageLoader.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -60,9 +60,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1918BDEB138A5B8C0097B25C"
-            BuildableName = "JSImageCache.app"
-            BlueprintName = "JSImageCache"
-            ReferencedContainer = "container:JSImageCache.xcodeproj">
+            BuildableName = "JSImageLoader.app"
+            BlueprintName = "JSImageLoader"
+            ReferencedContainer = "container:JSImageLoader.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

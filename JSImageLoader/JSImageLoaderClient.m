@@ -19,40 +19,39 @@
  
  */
 //
-//  CachedImageLoader.h
+//  CachedImageClient.m
 //  JSImageCache
 //
-//  Created by Jernej Strasner on 5/23/11.
-//  Copyright 2011 JernejStrasner.com. All rights reserved.
+//  Created by Jernej Strasner on 12/19/10.
+//  Copyright 2010 JernejStrasner.com. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JSImageLoaderClient.h"
 
-#import "CachedImageClient.h"
 
-#define MAX_NUMBER_OF_RETRIES 2
+@implementation JSImageLoaderClient
 
-@protocol CachedImageConsumer;
+@synthesize client;
+@synthesize request;
+@synthesize retries;
+@synthesize fetchOperation;
 
-@interface CachedImageLoader : NSObject {
-@private
-	NSOperationQueue *_imageDownloadQueue;
+- (id)init {
+	self = [super init];
+	if (self) {
+		retries = 0;
+	}
+	return self;
 }
 
-+ (CachedImageLoader *)sharedInstance;
+- (void)cancelFetch {
+	[fetchOperation cancel];
+}
 
-- (void)addClientToDownloadQueue:(CachedImageClient *)client;
-- (UIImage *)cachedImageForClient:(CachedImageClient *)client;
-
-- (void)suspendImageDownloads;
-- (void)resumeImageDownloads;
-- (void)cancelImageDownloads;
-
-@end
-
-@protocol CachedImageConsumer <NSObject>
-
-@required
-- (void)renderImage:(UIImage *)image forClient:(CachedImageClient *)client;
+- (void)dealloc {
+	[request release];
+	[fetchOperation release];
+	[super dealloc];
+}
 
 @end

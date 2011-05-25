@@ -44,7 +44,7 @@
 	self.tableView.rowHeight = 64.0f;
 	
 	if (!cachedImageLoader) {
-		cachedImageLoader = [[CachedImageLoader alloc] init];
+		cachedImageLoader = [[JSImageLoader alloc] init];
 	}
 	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];

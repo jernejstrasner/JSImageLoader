@@ -26,8 +26,8 @@
 //  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
-#import "CachedImageLoader.h"
-#import "DiskCache.h"
+#import "JSImageLoader.h"
+#import "JSImageLoaderCache.h"
 
 #import <libkern/OSAtomic.h>
 
@@ -36,15 +36,15 @@
 const NSInteger kMaxDownloadConnections	= 1;
 
 
-@interface CachedImageLoader (Private)
+@interface JSImageLoader (Private)
 
-- (void)loadImageForClient:(CachedImageClient *)client;
-- (BOOL)loadImageRemotelyForClient:(CachedImageClient *)request;
+- (void)loadImageForClient:(JSImageLoaderClient *)client;
+- (BOOL)loadImageRemotelyForClient:(JSImageLoaderClient *)request;
 
 @end
 
 
-@implementation CachedImageLoader
+@implementation JSImageLoader
 
 #pragma mark Initialization
 
@@ -67,9 +67,9 @@ const NSInteger kMaxDownloadConnections	= 1;
 
 static void * volatile sharedInstance = nil;
 
-+ (CachedImageLoader *)sharedInstance {
++ (JSImageLoader *)sharedInstance {
 	while (!sharedInstance) {
-		CachedImageLoader *temp = [[self alloc] init];
+		JSImageLoader *temp = [[self alloc] init];
 		if(!OSAtomicCompareAndSwapPtrBarrier(0x0, temp, &sharedInstance)) {
 			[temp release];
 		}
@@ -79,7 +79,7 @@ static void * volatile sharedInstance = nil;
 
 #pragma mark Add the operations
 
-- (void)addClientToDownloadQueue:(CachedImageClient *)client {
+- (void)addClientToDownloadQueue:(JSImageLoaderClient *)client {
 	[client retain];
 	// Check if the image for this client is in the cache
     UIImage *cachedImage = [self cachedImageForClient:client];
@@ -96,7 +96,7 @@ static void * volatile sharedInstance = nil;
 	[client release];
 }
 
-- (void)loadImageForClient:(CachedImageClient *)client {
+- (void)loadImageForClient:(JSImageLoaderClient *)client {
 	[client retain];
 	// Create an autorelease pool because we are on a background thread
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -105,7 +105,7 @@ static void * volatile sharedInstance = nil;
 		// If it fails retry
 		NSLog(@"CachedImageLoader: image download failed, trying again...");
 		client.retries = client.retries + 1;
-		[self addClientToDownloadQueue:client];
+		[self performSelectorOnMainThread:@selector(addClientToDownloadQueue:) withObject:client waitUntilDone:NO];
 	}
 	// Empty the pool
 	[pool drain];
@@ -128,7 +128,7 @@ static void * volatile sharedInstance = nil;
 
 #pragma mark Caching methods
 
-- (UIImage *)cachedImageForClient:(CachedImageClient *)client {
+- (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client {
 	// Variables
 	NSData *imageData = nil;
 	UIImage *image = nil;
@@ -144,7 +144,7 @@ static void * volatile sharedInstance = nil;
 	}
 	
 	// Try the on-disk cache
-	imageData = [[DiskCache sharedCache] imageDataInCacheForURLString:[[request URL] absoluteString]];
+	imageData = [[JSImageLoaderCache sharedCache] imageDataInCacheForURLString:[[request URL] absoluteString]];
 	if (imageData) {
 		// Determine the MIME type
 		NSString *mimeType = [[[request URL] path] pathExtension];
@@ -158,7 +158,7 @@ static void * volatile sharedInstance = nil;
 													 textEncodingName:nil]
 								   autorelease];
 		// Re-cache the data (actually only modifies the modification date on the file)
-		[[DiskCache sharedCache] cacheImageData:imageData 
+		[[JSImageLoaderCache sharedCache] cacheImageData:imageData 
 										 request:request 
 										response:response];
 		
@@ -176,14 +176,14 @@ static void * volatile sharedInstance = nil;
 		[self performSelectorOnMainThread:@selector(renderImageOnMainThread:) withObject:userInfo waitUntilDone:NO];
 		return;
 	}
-	CachedImageClient *client = [userInfo valueForKey:@"client"];
+	JSImageLoaderClient *client = [userInfo valueForKey:@"client"];
 	UIImage *image = [userInfo valueForKey:@"image"];
 	
 	// Render the image
 	[client.client renderImage:image forClient:client];
 }
 
-- (BOOL)loadImageRemotelyForClient:(CachedImageClient *)client {
+- (BOOL)loadImageRemotelyForClient:(JSImageLoaderClient *)client {
 	// Load the image remotely
 	// Get the request
 	NSURLRequest *request = [client request];
@@ -214,7 +214,7 @@ static void * volatile sharedInstance = nil;
         }
 	} else if (imageData != nil && response != nil) {
 		// Cache the data
-		[[DiskCache sharedCache] cacheImageData:imageData 
+		[[JSImageLoaderCache sharedCache] cacheImageData:imageData 
 										 request:request
 										response:response];
 		// Build an image from the data
@@ -222,7 +222,7 @@ static void * volatile sharedInstance = nil;
 		// Check if it is a valid image
 		if (!image) {
 			// Clear the cache
-			[[DiskCache sharedCache] clearCachedDataForRequest:request];
+			[[JSImageLoaderCache sharedCache] clearCachedDataForRequest:request];
 			// Still call the delegate but with nil (so the delegate can stop loading indicators, etc. and show an error perhaps)
 			[self renderImageOnMainThread:[NSDictionary dictionaryWithObjectsAndKeys:client, @"client", nil]];
 			// Return yes because we don't want to keep retrying the download of a corrupted image

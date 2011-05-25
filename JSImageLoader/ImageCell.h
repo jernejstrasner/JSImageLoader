@@ -8,18 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-#import "CachedImageLoader.h"
+#import "JSImageLoader.h"
 
 @interface ImageCell : UITableViewCell <CachedImageConsumer> {
-    CachedImageLoader *imageLoader;
-	CachedImageClient *imageClient;
+    JSImageLoader *imageLoader;
+	JSImageLoaderClient *imageClient;
 	
 	NSString *imageURL;
 	
 	UIImageView *imageView;
 }
 
-@property (nonatomic, assign) CachedImageLoader *imageLoader;
+@property (nonatomic, assign) JSImageLoader *imageLoader;
 
 @property (nonatomic, retain) NSString *imageURL;
 
