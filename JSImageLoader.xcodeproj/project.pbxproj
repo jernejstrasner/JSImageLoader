@@ -134,14 +134,13 @@
 		1918BE10138A5CC50097B25C /* JSImageLoader */ = {
 			isa = PBXGroup;
 			children = (
+				19C167BF13913683008A2E88 /* Categories */,
 				1918BE11138A5CD40097B25C /* JSImageLoader.h */,
 				1918BE12138A5CD40097B25C /* JSImageLoader.m */,
 				1918BE13138A5CD40097B25C /* JSImageLoaderClient.h */,
 				1918BE14138A5CD40097B25C /* JSImageLoaderClient.m */,
 				1918BE15138A5CD40097B25C /* JSImageLoaderCache.h */,
 				1918BE16138A5CD40097B25C /* JSImageLoaderCache.m */,
-				1918BE17138A5CD40097B25C /* NSString-Crypto.h */,
-				1918BE18138A5CD40097B25C /* NSString-Crypto.m */,
 			);
 			name = JSImageLoader;
 			sourceTree = "<group>";
@@ -162,6 +161,15 @@
 			children = (
 				193557CF138BBAB900C9B018 /* NSObject+Threading.h */,
 				193557D0138BBABA00C9B018 /* NSObject+Threading.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		19C167BF13913683008A2E88 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1918BE17138A5CD40097B25C /* NSString-Crypto.h */,
+				1918BE18138A5CD40097B25C /* NSString-Crypto.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";

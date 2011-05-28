@@ -11,14 +11,14 @@
 
 @implementation NSObject (Threading)
 
-- (void)performBlockOnMainThread:(void (^)(void))block {
+- (void)performBlockOnMainThread:(void (^)(void))block
+{
 	dispatch_async(dispatch_get_main_queue(), block);
 }
 
-- (void)performBlockInBackground:(void(^)(void))block {
-	dispatch_queue_t queue = dispatch_queue_create("com.jernejstrasner.background", NULL);
-	dispatch_async(queue, block);
-	dispatch_release(queue);
+- (void)performBlockInBackground:(void(^)(void))block
+{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
 }
 
 @end
