@@ -32,25 +32,33 @@
 
 #define MAX_NUMBER_OF_RETRIES 2
 
-@protocol CachedImageConsumer;
+@protocol CachedImageDelegate;
 
 @interface JSImageLoader : NSObject {
 @private
 	NSOperationQueue *_imageDownloadQueue;
 }
 
+// Singleton
 + (JSImageLoader *)sharedInstance;
 
+// Public method
 - (void)addClientToDownloadQueue:(JSImageLoaderClient *)client;
-- (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client;
 
+// Queue actions
 - (void)suspendImageDownloads;
 - (void)resumeImageDownloads;
 - (void)cancelImageDownloads;
 
+#if NS_BLOCKS_AVAILABLE
+// Blocks
+// WARNING: This method won't work properly in cases where views are reused! (eg. UITableView)
+- (void)getImageAtURL:(NSString *)url onSuccess:(void(^)(UIImage *image))successBlock onError:(void(^)(NSError *error))errorBlock;
+#endif
+
 @end
 
-@protocol CachedImageConsumer <NSObject>
+@protocol CachedImageDelegate <NSObject>
 
 @required
 - (void)renderImage:(UIImage *)image forClient:(JSImageLoaderClient *)client;

@@ -3,7 +3,7 @@
 //  JSImageCache
 //
 //  Created by Jernej Strasner on 5/24/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
 #import "ImageCell.h"
@@ -26,15 +26,21 @@
 	
 	// Cancel any previous image fetches for this cell
 	[imageClient cancelFetch];
-	imageClient.client = nil;
+	imageClient.delegate = nil;
 	[imageClient release];
 	
 	// Create a new client object
 	imageClient = [[JSImageLoaderClient alloc] init];
 	imageClient.request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:15.0];
-	imageClient.client = self;
+	imageClient.delegate = self;
 	// Start the image fetch
 	[imageLoader addClientToDownloadQueue:imageClient];
+	
+//	[imageLoader getImageAtURL:imageURL onSuccess:^(UIImage *image) {
+//		self.imageView.image = image;
+//	} onError:^(NSError *error) {
+//		NSLog(@"Image loading error: %@", [error localizedDescription]);
+//	}];
 }
 
 @synthesize imageView;
@@ -74,7 +80,7 @@
 - (void)dealloc
 {
 	[imageClient cancelFetch];
-	imageClient.client = nil;
+	imageClient.delegate = nil;
 	[imageClient release];
 	
 	[imageLoader release];

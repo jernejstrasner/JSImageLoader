@@ -38,6 +38,7 @@ const NSInteger kMaxDownloadConnections	= 1;
 
 @interface JSImageLoader (Private)
 
+- (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client;
 - (void)loadImageForClient:(JSImageLoaderClient *)client;
 - (BOOL)loadImageRemotelyForClient:(JSImageLoaderClient *)request;
 
@@ -46,7 +47,7 @@ const NSInteger kMaxDownloadConnections	= 1;
 
 @implementation JSImageLoader
 
-#pragma mark Initialization
+#pragma mark - Object lifecycle
 
 - (id)init {
 	self = [super init];
@@ -58,7 +59,15 @@ const NSInteger kMaxDownloadConnections	= 1;
 	return self;
 }
 
-#pragma mark Singleton
+- (void)dealloc {
+	// Clean up the queue
+	[_imageDownloadQueue cancelAllOperations];
+	[_imageDownloadQueue release];
+	// Super
+	[super dealloc];
+}
+
+#pragma mark - Singleton
 
 /*
  * Singleton pattern by Louis Gerbarg
@@ -77,7 +86,7 @@ static void * volatile sharedInstance = nil;
 	return sharedInstance;
 }
 
-#pragma mark Add the operations
+#pragma mark - Public methods
 
 - (void)addClientToDownloadQueue:(JSImageLoaderClient *)client {
 	[client retain];
@@ -85,7 +94,7 @@ static void * volatile sharedInstance = nil;
     UIImage *cachedImage = [self cachedImageForClient:client];
     if (cachedImage) {
 		// Render the image
-		[client.client renderImage:cachedImage forClient:client];
+		[client.delegate renderImage:cachedImage forClient:client];
     } else {
 		// Create an operation and add to the queue
 		[_imageDownloadQueue setSuspended:NO];
@@ -95,6 +104,8 @@ static void * volatile sharedInstance = nil;
 	}
 	[client release];
 }
+
+#pragma mark - Private methods
 
 - (void)loadImageForClient:(JSImageLoaderClient *)client {
 	[client retain];
@@ -111,22 +122,6 @@ static void * volatile sharedInstance = nil;
 	[pool drain];
 	[client release];
 }
-
-#pragma mark Actions
-
-- (void)suspendImageDownloads {
-	[_imageDownloadQueue setSuspended:YES];
-}
-
-- (void)resumeImageDownloads {
-	[_imageDownloadQueue setSuspended:NO];
-}
-
-- (void)cancelImageDownloads {
-	[_imageDownloadQueue cancelAllOperations];
-}
-
-#pragma mark Caching methods
 
 - (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client {
 	// Variables
@@ -180,7 +175,7 @@ static void * volatile sharedInstance = nil;
 	UIImage *image = [userInfo valueForKey:@"image"];
 	
 	// Render the image
-	[client.client renderImage:image forClient:client];
+	[client.delegate renderImage:image forClient:client];
 }
 
 - (BOOL)loadImageRemotelyForClient:(JSImageLoaderClient *)client {
@@ -241,14 +236,133 @@ static void * volatile sharedInstance = nil;
 	return NO;
 }
 
-#pragma mark Memory management
+#pragma mark - Actions
 
-- (void)dealloc {
-	// Clean up the queue
-	[_imageDownloadQueue cancelAllOperations];
-	[_imageDownloadQueue release];
-	// Super
-	[super dealloc];
+- (void)suspendImageDownloads {
+	[_imageDownloadQueue setSuspended:YES];
 }
+
+- (void)resumeImageDownloads {
+	[_imageDownloadQueue setSuspended:NO];
+}
+
+- (void)cancelImageDownloads {
+	[_imageDownloadQueue cancelAllOperations];
+}
+
+#pragma mark - Block methods
+
+#if NS_BLOCKS_AVAILABLE
+- (void)getImageAtURL:(NSString *)url onSuccess:(void(^)(UIImage *image))successBlock onError:(void(^)(NSError *error))errorBlock
+{
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+		// Create a request
+		NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+		
+		// Try the in-memory cache
+		NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
+		if (cachedResponse)
+		{
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				successBlock([UIImage imageWithData:[cachedResponse data]]);
+			});
+			// Exit
+			return;
+		}
+		
+		// Try the on-disk cache
+		NSData *imageData = [[JSImageLoaderCache sharedCache] imageDataInCacheForURLString:[[request URL] absoluteString]];
+		if (imageData)
+		{
+			// Determine the MIME type
+			NSString *mimeType = [[[request URL] path] pathExtension];
+			if ([mimeType isEqualToString:@"jpg"]) {
+				mimeType = @"jpeg";
+			}
+			// Build a URL response
+			NSURLResponse *response = [[[NSURLResponse alloc] initWithURL:[request URL]
+																 MIMEType:[NSString stringWithFormat:@"image/%@", mimeType]
+													expectedContentLength:[imageData length]
+														 textEncodingName:nil]
+									   autorelease];
+			// Re-cache the data (actually only modifies the modification date on the file)
+			[[JSImageLoaderCache sharedCache] cacheImageData:imageData 
+													 request:request 
+													response:response];
+			
+			// Return the image
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				successBlock([UIImage imageWithData:imageData]);
+			});
+			return;
+		}
+		
+		// Load the image remotely
+		[_imageDownloadQueue addOperationWithBlock:^{
+			NSURLResponse *response = nil;
+			NSError *error = nil;
+			
+			// Retries
+			int retries_counter = MAX_NUMBER_OF_RETRIES;
+			NSData *imageData;
+			while(1) {
+				retries_counter--;
+				imageData = [NSURLConnection sendSynchronousRequest:request
+														  returningResponse:&response
+																	  error:&error];
+				// Check for errors
+				if (error) {
+					switch ([error code]) {
+						case NSURLErrorUnsupportedURL:
+						case NSURLErrorBadURL:
+						case NSURLErrorBadServerResponse:
+						case NSURLErrorRedirectToNonExistentLocation:
+						case NSURLErrorFileDoesNotExist:
+						case NSURLErrorFileIsDirectory:
+							dispatch_async(dispatch_get_main_queue(), ^(void) {
+								errorBlock([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The image failed to download." forKey:NSLocalizedDescriptionKey]]);
+							});
+							return;
+						default:
+							// retry
+							if (retries_counter < 1) return;
+							continue;
+					}				
+					
+				} else if (imageData != nil && response != nil) {
+					// Cache the data
+					[[JSImageLoaderCache sharedCache] cacheImageData:imageData 
+															 request:request
+															response:response];
+					// Build an image from the data
+					UIImage *image = [UIImage imageWithData:imageData];
+					// Check if it is a valid image
+					if (!image) {
+						// Clear the cache
+						[[JSImageLoaderCache sharedCache] clearCachedDataForRequest:request];
+						// Error
+						dispatch_async(dispatch_get_main_queue(), ^(void) {
+							errorBlock([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Invalid image data." forKey:NSLocalizedDescriptionKey]]);
+						});
+						return;
+					} else {
+						dispatch_async(dispatch_get_main_queue(), ^(void) {
+							successBlock(image);
+						});
+						return;
+					}
+				} else {
+					dispatch_async(dispatch_get_main_queue(), ^(void) {
+						errorBlock([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The image failed to download." forKey:NSLocalizedDescriptionKey]]);
+					});
+					return;
+				}
+				
+			}
+			
+		}];
+	});
+}
+#endif
 
 @end

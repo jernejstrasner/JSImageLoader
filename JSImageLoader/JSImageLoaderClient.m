@@ -31,7 +31,7 @@
 
 @implementation JSImageLoaderClient
 
-@synthesize client;
+@synthesize delegate;
 @synthesize request;
 @synthesize retries;
 @synthesize fetchOperation;

@@ -35,13 +35,13 @@
 
 
 @interface JSImageLoaderClient : NSObject {
-	id client;
+	id delegate;
 	NSURLRequest *request;
 	NSUInteger retries;
 	NSOperation *fetchOperation;
 }
 
-@property (nonatomic, assign) id client;
+@property (nonatomic, assign) id delegate;
 @property (nonatomic, retain) NSURLRequest *request;
 @property (nonatomic, assign) NSUInteger retries;
 @property (nonatomic, retain) NSOperation *fetchOperation;
