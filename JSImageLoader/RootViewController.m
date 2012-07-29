@@ -29,11 +29,12 @@
 #import "RootViewController.h"
 
 #import "NSObject+Threading.h"
-#import "JSONKit.h"
 
 #import "ImageCell.h"
 
-@implementation RootViewController
+@implementation RootViewController {
+	NSArray *data;
+}
 
 - (void)viewDidLoad
 {
@@ -41,11 +42,7 @@
 	
 	self.title = @"Flickr";
 	
-	self.tableView.rowHeight = 64.0f;
-	
-	if (!cachedImageLoader) {
-		cachedImageLoader = [[JSImageLoader alloc] init];
-	}
+	self.tableView.rowHeight = 64;
 	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	[self performBlockInBackground:^(void) {
@@ -56,7 +53,7 @@
 		jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\'" withString:@"'"];
 		// Create an object from the JSON
 		NSError *error = nil;
-		NSDictionary *obj = [jsonString objectFromJSONStringWithParseOptions:0 error:&error];
+		NSDictionary *obj = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
 		NSLog(@"%@", obj);
 		if (error == nil) {
 			[self performBlockOnMainThread:^(void) {
@@ -71,6 +68,29 @@
 			}];
 		}
 	}];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Relinquish ownership any cached data, images, etc that aren't in use.
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+	
+    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
+    // For example: self.myOutlet = nil;
+}
+
+- (void)dealloc
+{
+	[data release];
+	[[JSImageLoader sharedInstance] cancelImageDownloads];
+    [super dealloc];
 }
 
 // Customize the number of sections in the table view.
@@ -95,8 +115,7 @@
     }
 
 	NSDictionary *obj = [data objectAtIndex:indexPath.row];
-	cell.imageLoader = cachedImageLoader;
-	cell.imageURL = [obj valueForKeyPath:@"media.m"];
+	cell.imageURL = [NSURL URLWithString:[obj valueForKeyPath:@"media.m"]];
 	cell.textLabel.text = [obj valueForKey:@"title"];
 	
     return cell;
@@ -104,30 +123,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Relinquish ownership any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
-}
-
-- (void)dealloc
-{
-	[data release];
-	[cachedImageLoader cancelImageDownloads];
-	[cachedImageLoader release];
-    [super dealloc];
 }
 
 @end

@@ -30,11 +30,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootViewController : UITableViewController {
-	NSArray *data;
-	
-	JSImageLoader *cachedImageLoader;
-}
-
+@interface RootViewController : UITableViewController
 
 @end

@@ -10,19 +10,9 @@
 
 #import "JSImageLoader.h"
 
-@interface ImageCell : UITableViewCell <CachedImageDelegate> {
-    JSImageLoader *imageLoader;
-	JSImageLoaderClient *imageClient;
-	
-	NSString *imageURL;
-	
-	UIImageView *imageView;
-}
+@interface ImageCell : UITableViewCell
 
-@property (nonatomic, assign) JSImageLoader *imageLoader;
-
-@property (nonatomic, retain) NSString *imageURL;
-
-@property (nonatomic, readonly, retain) UIImageView *imageView;
+@property (nonatomic, retain) NSURL *imageURL;
+@property (nonatomic, readonly) UIImageView *imageView;
 
 @end
