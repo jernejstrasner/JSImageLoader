@@ -256,18 +256,18 @@
 
 #pragma mark - Block methods
 
-- (void)getImageAtURL:(NSString *)url completionHandler:(void(^)(NSError *error, UIImage *image))completionHandler
+- (void)getImageAtURL:(NSURL *)url completionHandler:(void(^)(NSError *error, UIImage *image, NSURL *imageURL))completionHandler
 {
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		// Create a request
-		NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+		NSURLRequest *request = [NSURLRequest requestWithURL:url];
 		
 		// Try the in-memory cache
 		NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
 		if (cachedResponse)
 		{
 			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				completionHandler(nil, [UIImage imageWithData:[cachedResponse data]]);
+				completionHandler(nil, [UIImage imageWithData:[cachedResponse data]], url);
 			});
 			// Exit
 			return;
@@ -295,7 +295,7 @@
 			
 			// Return the image
 			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				completionHandler(nil, [UIImage imageWithData:imageData]);
+				completionHandler(nil, [UIImage imageWithData:imageData], url);
 			});
 			return;
 		}
@@ -323,7 +323,7 @@
 						case NSURLErrorFileDoesNotExist:
 						case NSURLErrorFileIsDirectory:
 							dispatch_async(dispatch_get_main_queue(), ^(void) {
-								completionHandler(error, nil);
+								completionHandler(error, nil, url);
 							});
 							return;
 						default:
@@ -345,18 +345,18 @@
 						[[JSImageLoaderCache sharedCache] clearCachedDataForRequest:request];
 						// Error
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Invalid image data" forKey:NSLocalizedDescriptionKey]], nil);
+							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Invalid image data" forKey:NSLocalizedDescriptionKey]], nil, url);
 						});
 						return;
 					} else {
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							completionHandler(nil, image);
+							completionHandler(nil, image, url);
 						});
 						return;
 					}
 				} else {
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The image failed to download." forKey:NSLocalizedDescriptionKey]], nil);
+						completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The image failed to download." forKey:NSLocalizedDescriptionKey]], nil, url);
 					});
 					return;
 				}
