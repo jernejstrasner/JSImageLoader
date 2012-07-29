@@ -36,7 +36,8 @@
 @synthesize retries;
 @synthesize fetchOperation;
 
-- (id)init {
+- (id)init
+{
 	self = [super init];
 	if (self) {
 		retries = 0;
@@ -44,14 +45,16 @@
 	return self;
 }
 
-- (void)cancelFetch {
-	[fetchOperation cancel];
-}
-
-- (void)dealloc {
+- (void)dealloc
+{
 	[request release];
 	[fetchOperation release];
 	[super dealloc];
+}
+
+- (void)cancelFetch
+{
+	[fetchOperation cancel];
 }
 
 @end

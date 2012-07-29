@@ -35,11 +35,7 @@
 //#define DiskCacheDebug
 
 
-@interface JSImageLoaderCache : NSObject {
-@private
-	NSString *_cacheDir;
-	NSUInteger _cacheSize;
-}
+@interface JSImageLoaderCache : NSObject
 
 @property (nonatomic, readonly) NSUInteger sizeOfCache;
 @property (nonatomic, readonly) NSString *cacheDir;

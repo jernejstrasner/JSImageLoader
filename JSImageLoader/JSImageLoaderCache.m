@@ -30,9 +30,11 @@
 
 #import "NSString-Crypto.h"
 
-#import <libkern/OSAtomic.h>
-
-@interface JSImageLoaderCache (Privates)
+@interface JSImageLoaderCache () {
+@private
+	NSString *_cacheDir;
+	NSUInteger _cacheSize;
+}
 
 - (void)trimDiskCacheFilesToMaxSize:(NSUInteger)targetBytes;
 
@@ -43,9 +45,10 @@
 
 @synthesize sizeOfCache, cacheDir;
 
-#pragma mark Initialization
+#pragma mark - Lifecycle
 
-- (id)init {
+- (id)init
+{
 	self = [super init];
 	if (self) {
 		// Clean the cache
@@ -54,28 +57,30 @@
 	return self;	
 }
 
-#pragma mark Singleton
+- (void)dealloc
+{
+	[_cacheDir release];
+	[super dealloc];
+}
 
-/*
- * Singleton pattern by Louis Gerbarg
- * http://stackoverflow.com/questions/145154/what-does-your-objective-c-singleton-look-like/2449664#2449664
- */
+#pragma mark - Singleton
 
-static void * volatile sharedInstance = nil;
++ (JSImageLoaderCache *)sharedCache
+{
+	static JSImageLoaderCache *sharedInstance = nil;
+	static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+		sharedInstance = [[JSImageLoaderCache alloc] init];
+	});
 
-+ (JSImageLoaderCache *)sharedCache {
-	while (!sharedInstance) {
-		JSImageLoaderCache *temp = [[self alloc] init];
-		if(!OSAtomicCompareAndSwapPtrBarrier(0x0, temp, &sharedInstance)) {
-			[temp release];
-		}
-	}
 	return sharedInstance;
 }
 
-#pragma mark Paths
+#pragma mark - Paths
 
-- (NSString *)cacheDir {
+- (NSString *)cacheDir
+{
 	// Check if the cache dir is set
 	if (_cacheDir == nil) {
 		// Build the cache dir path
@@ -95,7 +100,8 @@ static void * volatile sharedInstance = nil;
 	return _cacheDir;
 }
 
-- (NSString *)localPathForURL:(NSURL *)url {
+- (NSString *)localPathForURL:(NSURL *)url
+{
 	// Build the file name
 	NSString *filename = [[url absoluteString] md5];
 
@@ -105,7 +111,8 @@ static void * volatile sharedInstance = nil;
 
 #pragma mark Get the cached data
 
-- (NSData *)imageDataInCacheForURLString:(NSString *)urlString {
+- (NSData *)imageDataInCacheForURLString:(NSString *)urlString
+{
 	// Get the path for the local file equivalent
 	NSString *localPath = [self localPathForURL:[NSURL URLWithString:urlString]];
 	
@@ -125,7 +132,8 @@ static void * volatile sharedInstance = nil;
 
 #pragma mark Cache data
 
-- (void)cacheImageData:(NSData *)imageData request:(NSURLRequest *)request response:(NSURLResponse *)response {
+- (void)cacheImageData:(NSData *)imageData request:(NSURLRequest *)request response:(NSURLResponse *)response
+{
 	// Check of all the parameters are present and valid
 	if (request != nil && response != nil && imageData != nil) {
 		// Create a cached url response
@@ -159,7 +167,8 @@ static void * volatile sharedInstance = nil;
 
 #pragma mark Cache cleaning
 
-- (void)clearCachedDataForRequest:(NSURLRequest *)request {
+- (void)clearCachedDataForRequest:(NSURLRequest *)request
+{
 	// Remove the cache in the shared URL cache
 	[[NSURLCache sharedURLCache] removeCachedResponseForRequest:request];
 	// Get the data of the disk cache for the request
@@ -170,7 +179,8 @@ static void * volatile sharedInstance = nil;
 	[[NSFileManager defaultManager] removeItemAtPath:[self localPathForURL:[request URL]] error:nil];
 }
 
-- (NSUInteger)sizeOfCache {
+- (NSUInteger)sizeOfCache
+{
 	// Get the path of the cache directory
 	NSString *cacheDirectory = [self cacheDir];
 	// Check if the cache size is not calculated yet and that the cache directory is valid
@@ -205,7 +215,8 @@ static void * volatile sharedInstance = nil;
 }
 
 
-NSInteger dateModifiedSort(id file1, id file2, void *reverse) {
+NSInteger dateModifiedSort(id file1, id file2, void *reverse)
+{
 	// This function sorts 2 files by their modification date
 	// Get the attributes of both files
 	NSDictionary *attrs1 = [[NSFileManager defaultManager] attributesOfItemAtPath:file1 error:nil];
@@ -220,7 +231,8 @@ NSInteger dateModifiedSort(id file1, id file2, void *reverse) {
 }
 
 
-- (void)trimDiskCacheFilesToMaxSize:(NSUInteger)targetBytes {
+- (void)trimDiskCacheFilesToMaxSize:(NSUInteger)targetBytes
+{
 	// Determine the target size of the cache
 	targetBytes = MIN(kMaxDiskCacheSize, MAX(0, targetBytes));
 	// Check if the currnet cache size is bigger than the target
@@ -252,14 +264,6 @@ NSInteger dateModifiedSort(id file1, id file2, void *reverse) {
 		// Clean up
         [filteredArray release];
 	}
-}
-
-#pragma mark Memory management
-
-- (void)dealloc {
-	[_cacheDir release];
-	
-	[super dealloc];
 }
 
 @end

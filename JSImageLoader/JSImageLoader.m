@@ -30,11 +30,13 @@
 #import "JSImageLoaderCache.h"
 
 #define kNumberOfRetries 5
+#define kMaxDownloadConnections	1
 
-const NSInteger kMaxDownloadConnections	= 1;
 
-
-@interface JSImageLoader (Private)
+@interface JSImageLoader () {
+@private
+	NSOperationQueue *_imageDownloadQueue;
+}
 
 - (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client;
 - (void)loadImageForClient:(JSImageLoaderClient *)client;
@@ -42,12 +44,12 @@ const NSInteger kMaxDownloadConnections	= 1;
 
 @end
 
-
 @implementation JSImageLoader
 
 #pragma mark - Object lifecycle
 
-- (id)init {
+- (id)init
+{
 	self = [super init];
 	if (self) {
 		// Initialize the queue
@@ -57,7 +59,8 @@ const NSInteger kMaxDownloadConnections	= 1;
 	return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 	// Clean up the queue
 	[_imageDownloadQueue cancelAllOperations];
 	[_imageDownloadQueue release];
@@ -81,7 +84,8 @@ const NSInteger kMaxDownloadConnections	= 1;
 
 #pragma mark - Public methods
 
-- (void)addClientToDownloadQueue:(JSImageLoaderClient *)client {
+- (void)addClientToDownloadQueue:(JSImageLoaderClient *)client
+{
 	[client retain];
 	// Check if the image for this client is in the cache
     UIImage *cachedImage = [self cachedImageForClient:client];
@@ -100,7 +104,8 @@ const NSInteger kMaxDownloadConnections	= 1;
 
 #pragma mark - Private methods
 
-- (void)loadImageForClient:(JSImageLoaderClient *)client {
+- (void)loadImageForClient:(JSImageLoaderClient *)client
+{
 	[client retain];
 	// Create an autorelease pool because we are on a background thread
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -116,7 +121,8 @@ const NSInteger kMaxDownloadConnections	= 1;
 	[client release];
 }
 
-- (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client {
+- (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client
+{
 	// Variables
 	NSData *imageData = nil;
 	UIImage *image = nil;
@@ -158,7 +164,8 @@ const NSInteger kMaxDownloadConnections	= 1;
 	return image;
 }
 
-- (void)renderImageOnMainThread:(NSDictionary *)userInfo {
+- (void)renderImageOnMainThread:(NSDictionary *)userInfo
+{
 	// Go to the main thread if needed
 	if ([NSThread currentThread] != [NSThread mainThread]) {
 		[self performSelectorOnMainThread:@selector(renderImageOnMainThread:) withObject:userInfo waitUntilDone:NO];
@@ -171,7 +178,8 @@ const NSInteger kMaxDownloadConnections	= 1;
 	[client.delegate renderImage:image forClient:client];
 }
 
-- (BOOL)loadImageRemotelyForClient:(JSImageLoaderClient *)client {
+- (BOOL)loadImageRemotelyForClient:(JSImageLoaderClient *)client
+{
 	// Load the image remotely
 	// Get the request
 	NSURLRequest *request = [client request];
@@ -231,21 +239,23 @@ const NSInteger kMaxDownloadConnections	= 1;
 
 #pragma mark - Actions
 
-- (void)suspendImageDownloads {
+- (void)suspendImageDownloads
+{
 	[_imageDownloadQueue setSuspended:YES];
 }
 
-- (void)resumeImageDownloads {
+- (void)resumeImageDownloads
+{
 	[_imageDownloadQueue setSuspended:NO];
 }
 
-- (void)cancelImageDownloads {
+- (void)cancelImageDownloads
+{
 	[_imageDownloadQueue cancelAllOperations];
 }
 
 #pragma mark - Block methods
 
-#if NS_BLOCKS_AVAILABLE
 - (void)getImageAtURL:(NSString *)url onSuccess:(void(^)(UIImage *image))successBlock onError:(void(^)(NSError *error))errorBlock
 {
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
@@ -356,6 +366,5 @@ const NSInteger kMaxDownloadConnections	= 1;
 		}];
 	});
 }
-#endif
 
 @end

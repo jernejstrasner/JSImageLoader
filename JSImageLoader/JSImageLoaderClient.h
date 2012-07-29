@@ -34,12 +34,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface JSImageLoaderClient : NSObject {
-	id delegate;
-	NSURLRequest *request;
-	NSUInteger retries;
-	NSOperation *fetchOperation;
-}
+@interface JSImageLoaderClient : NSObject
 
 @property (nonatomic, assign) id delegate;
 @property (nonatomic, retain) NSURLRequest *request;

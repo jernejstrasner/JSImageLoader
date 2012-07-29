@@ -34,10 +34,7 @@
 
 @protocol CachedImageDelegate;
 
-@interface JSImageLoader : NSObject {
-@private
-	NSOperationQueue *_imageDownloadQueue;
-}
+@interface JSImageLoader : NSObject
 
 // Singleton
 + (JSImageLoader *)sharedInstance;
@@ -50,11 +47,9 @@
 - (void)resumeImageDownloads;
 - (void)cancelImageDownloads;
 
-#if NS_BLOCKS_AVAILABLE
 // Blocks
 // WARNING: This method won't work properly in cases where views are reused! (eg. UITableView)
 - (void)getImageAtURL:(NSString *)url onSuccess:(void(^)(UIImage *image))successBlock onError:(void(^)(NSError *error))errorBlock;
-#endif
 
 @end
 
