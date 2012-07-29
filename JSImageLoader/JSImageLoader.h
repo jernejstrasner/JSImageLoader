@@ -28,19 +28,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JSImageLoaderClient.h"
-
-#define MAX_NUMBER_OF_RETRIES 2
-
-@protocol CachedImageDelegate;
 
 @interface JSImageLoader : NSObject
 
 // Singleton
 + (JSImageLoader *)sharedInstance;
-
-// Public method
-- (void)addClientToDownloadQueue:(JSImageLoaderClient *)client;
 
 // Queue actions
 - (void)suspendImageDownloads;
@@ -48,14 +40,6 @@
 - (void)cancelImageDownloads;
 
 // Blocks
-// WARNING: This method won't work properly in cases where views are reused! (eg. UITableView)
 - (void)getImageAtURL:(NSURL *)url completionHandler:(void(^)(NSError *error, UIImage *image, NSURL *imageURL))completionHandler;
-
-@end
-
-@protocol CachedImageDelegate <NSObject>
-
-@required
-- (void)renderImage:(UIImage *)image forClient:(JSImageLoaderClient *)client;
 
 @end

@@ -27,9 +27,8 @@
 //
 
 #import "JSImageLoader.h"
-#import "JSImageLoaderCache.h"
 
-#define kNumberOfRetries 5
+#define kNumberOfRetries 2
 #define kMaxDownloadConnections	1
 
 
@@ -37,10 +36,6 @@
 @private
 	NSOperationQueue *_imageDownloadQueue;
 }
-
-- (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client;
-- (void)loadImageForClient:(JSImageLoaderClient *)client;
-- (BOOL)loadImageRemotelyForClient:(JSImageLoaderClient *)request;
 
 @end
 
@@ -82,161 +77,6 @@
 	return sharedInstance;
 }
 
-#pragma mark - Public methods
-
-- (void)addClientToDownloadQueue:(JSImageLoaderClient *)client
-{
-	[client retain];
-	// Check if the image for this client is in the cache
-    UIImage *cachedImage = [self cachedImageForClient:client];
-    if (cachedImage) {
-		// Render the image
-		[client.delegate renderImage:cachedImage forClient:client];
-    } else {
-		// Create an operation and add to the queue
-		[_imageDownloadQueue setSuspended:NO];
-		NSInvocationOperation *imageDownloadOp = [[[NSInvocationOperation alloc] initWithTarget:self selector:@selector(loadImageForClient:) object:client] autorelease];
-		[_imageDownloadQueue addOperation:imageDownloadOp];
-		client.fetchOperation = imageDownloadOp;
-	}
-	[client release];
-}
-
-#pragma mark - Private methods
-
-- (void)loadImageForClient:(JSImageLoaderClient *)client
-{
-	[client retain];
-	// Create an autorelease pool because we are on a background thread
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	// Load the image
-	if (![self loadImageRemotelyForClient:client] && [client retries] < MAX_NUMBER_OF_RETRIES) {
-		// If it fails retry
-		NSLog(@"CachedImageLoader: image download failed, trying again...");
-		client.retries = client.retries + 1;
-		[self performSelectorOnMainThread:@selector(addClientToDownloadQueue:) withObject:client waitUntilDone:NO];
-	}
-	// Empty the pool
-	[pool drain];
-	[client release];
-}
-
-- (UIImage *)cachedImageForClient:(JSImageLoaderClient *)client
-{
-	// Variables
-	NSData *imageData = nil;
-	UIImage *image = nil;
-	// Get the request from the client
-	NSURLRequest *request = [client request];
-	// Try the in-memory cache
-	NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
-	if (cachedResponse) {
-		imageData = [cachedResponse data];
-		image = [UIImage imageWithData:imageData];
-		
-		return image;
-	}
-	
-	// Try the on-disk cache
-	imageData = [[JSImageLoaderCache sharedCache] imageDataInCacheForURLString:[[request URL] absoluteString]];
-	if (imageData) {
-		// Determine the MIME type
-		NSString *mimeType = [[[request URL] path] pathExtension];
-		if ([mimeType isEqualToString:@"jpg"]) {
-			mimeType = @"jpeg";
-		}
-		// Build a URL response
-		NSURLResponse *response = [[[NSURLResponse alloc] initWithURL:[request URL]
-															 MIMEType:[NSString stringWithFormat:@"image/%@", mimeType]
-												expectedContentLength:[imageData length]
-													 textEncodingName:nil]
-								   autorelease];
-		// Re-cache the data (actually only modifies the modification date on the file)
-		[[JSImageLoaderCache sharedCache] cacheImageData:imageData 
-										 request:request 
-										response:response];
-		
-		// Return the image
-		image = [UIImage imageWithData:imageData];
-		return image;
-	}
-	
-	return image;
-}
-
-- (void)renderImageOnMainThread:(NSDictionary *)userInfo
-{
-	// Go to the main thread if needed
-	if ([NSThread currentThread] != [NSThread mainThread]) {
-		[self performSelectorOnMainThread:@selector(renderImageOnMainThread:) withObject:userInfo waitUntilDone:NO];
-		return;
-	}
-	JSImageLoaderClient *client = [userInfo valueForKey:@"client"];
-	UIImage *image = [userInfo valueForKey:@"image"];
-	
-	// Render the image
-	[client.delegate renderImage:image forClient:client];
-}
-
-- (BOOL)loadImageRemotelyForClient:(JSImageLoaderClient *)client
-{
-	// Load the image remotely
-	// Get the request
-	NSURLRequest *request = [client request];
-	if (!request || ![request URL]) {
-		return NO;
-	}
-	// Syncrounously get the data
-	NSURLResponse *response = nil;
-	NSError *error = nil;
-	NSData *imageData = [NSURLConnection sendSynchronousRequest:request
-											  returningResponse:&response
-														  error:&error];
-	
-	// Check for errors
-	if (error) {
-		NSLog(@"ERROR RETRIEVING IMAGE at %@: %@", [request URL], [error localizedDescription]);
-
-        NSInteger code = [error code];
-        if (code == NSURLErrorUnsupportedURL ||
-            code == NSURLErrorBadURL ||
-            code == NSURLErrorBadServerResponse ||
-            code == NSURLErrorRedirectToNonExistentLocation ||
-            code == NSURLErrorFileDoesNotExist ||
-            code == NSURLErrorFileIsDirectory ||
-            code == NSURLErrorRedirectToNonExistentLocation) {
-            // the above status codes are permanent fatal errors; don't retry
-            return YES;
-        }
-	} else if (imageData != nil && response != nil) {
-		// Cache the data
-		[[JSImageLoaderCache sharedCache] cacheImageData:imageData 
-										 request:request
-										response:response];
-		// Build an image from the data
-		UIImage *image = [UIImage imageWithData:imageData];
-		// Check if it is a valid image
-		if (!image) {
-			// Clear the cache
-			[[JSImageLoaderCache sharedCache] clearCachedDataForRequest:request];
-			// Still call the delegate but with nil (so the delegate can stop loading indicators, etc. and show an error perhaps)
-			[self renderImageOnMainThread:[NSDictionary dictionaryWithObjectsAndKeys:client, @"client", nil]];
-			// Return yes because we don't want to keep retrying the download of a corrupted image
-			return YES;
-		} else {
-			// Send the image to the client
-			[self renderImageOnMainThread:[NSDictionary dictionaryWithObjectsAndKeys:image, @"image", client, @"client", nil]];
-			// Return
-			return YES;
-		}
-	} else {
-		NSLog(@"Unknown error retrieving image at: %@ (response is null)", [request URL]);
-	}
-	
-	// If everything fails return NO
-	return NO;
-}
-
 #pragma mark - Actions
 
 - (void)suspendImageDownloads
@@ -262,40 +102,11 @@
 		// Create a request
 		NSURLRequest *request = [NSURLRequest requestWithURL:url];
 		
-		// Try the in-memory cache
+		// Check the cache
 		NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
-		if (cachedResponse)
-		{
+		if (cachedResponse) {
 			dispatch_async(dispatch_get_main_queue(), ^(void) {
 				completionHandler(nil, [UIImage imageWithData:[cachedResponse data]], url);
-			});
-			// Exit
-			return;
-		}
-		
-		// Try the on-disk cache
-		NSData *imageData = [[JSImageLoaderCache sharedCache] imageDataInCacheForURLString:[[request URL] absoluteString]];
-		if (imageData)
-		{
-			// Determine the MIME type
-			NSString *mimeType = [[[request URL] path] pathExtension];
-			if ([mimeType isEqualToString:@"jpg"]) {
-				mimeType = @"jpeg";
-			}
-			// Build a URL response
-			NSURLResponse *response = [[[NSURLResponse alloc] initWithURL:[request URL]
-																 MIMEType:[NSString stringWithFormat:@"image/%@", mimeType]
-													expectedContentLength:[imageData length]
-														 textEncodingName:nil]
-									   autorelease];
-			// Re-cache the data (actually only modifies the modification date on the file)
-			[[JSImageLoaderCache sharedCache] cacheImageData:imageData 
-													 request:request 
-													response:response];
-			
-			// Return the image
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				completionHandler(nil, [UIImage imageWithData:imageData], url);
 			});
 			return;
 		}
@@ -306,14 +117,12 @@
 			NSError *error = nil;
 			
 			// Retries
-			int retries_counter = MAX_NUMBER_OF_RETRIES;
+			int retries_counter = kNumberOfRetries;
 			NSData *imageData;
 			while(1) {
 				retries_counter--;
-				imageData = [NSURLConnection sendSynchronousRequest:request
-														  returningResponse:&response
-																	  error:&error];
-				// Check for errors
+
+				imageData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 				if (error) {
 					switch ([error code]) {
 						case NSURLErrorUnsupportedURL:
@@ -330,25 +139,20 @@
 							// retry
 							if (retries_counter < 1) return;
 							continue;
-					}				
-					
-				} else if (imageData != nil && response != nil) {
-					// Cache the data
-					[[JSImageLoaderCache sharedCache] cacheImageData:imageData 
-															 request:request
-															response:response];
+					}
+				}
+				else if (imageData != nil && response != nil) {
 					// Build an image from the data
 					UIImage *image = [UIImage imageWithData:imageData];
-					// Check if it is a valid image
 					if (!image) {
-						// Clear the cache
-						[[JSImageLoaderCache sharedCache] clearCachedDataForRequest:request];
-						// Error
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
 							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Invalid image data" forKey:NSLocalizedDescriptionKey]], nil, url);
 						});
 						return;
 					} else {
+						// Image is valid, cache the data
+						[[NSURLCache sharedURLCache] storeCachedResponse:[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] forRequest:request];
+						
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
 							completionHandler(nil, image, url);
 						});
