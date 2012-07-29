@@ -49,7 +49,7 @@
 
 // Blocks
 // WARNING: This method won't work properly in cases where views are reused! (eg. UITableView)
-- (void)getImageAtURL:(NSString *)url onSuccess:(void(^)(UIImage *image))successBlock onError:(void(^)(NSError *error))errorBlock;
+- (void)getImageAtURL:(NSString *)url completionHandler:(void(^)(NSError *error, UIImage *image))completionHandler;
 
 @end
 

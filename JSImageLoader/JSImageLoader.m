@@ -256,7 +256,7 @@
 
 #pragma mark - Block methods
 
-- (void)getImageAtURL:(NSString *)url onSuccess:(void(^)(UIImage *image))successBlock onError:(void(^)(NSError *error))errorBlock
+- (void)getImageAtURL:(NSString *)url completionHandler:(void(^)(NSError *error, UIImage *image))completionHandler
 {
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		// Create a request
@@ -267,7 +267,7 @@
 		if (cachedResponse)
 		{
 			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				successBlock([UIImage imageWithData:[cachedResponse data]]);
+				completionHandler(nil, [UIImage imageWithData:[cachedResponse data]]);
 			});
 			// Exit
 			return;
@@ -295,7 +295,7 @@
 			
 			// Return the image
 			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				successBlock([UIImage imageWithData:imageData]);
+				completionHandler(nil, [UIImage imageWithData:imageData]);
 			});
 			return;
 		}
@@ -323,7 +323,7 @@
 						case NSURLErrorFileDoesNotExist:
 						case NSURLErrorFileIsDirectory:
 							dispatch_async(dispatch_get_main_queue(), ^(void) {
-								errorBlock([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The image failed to download." forKey:NSLocalizedDescriptionKey]]);
+								completionHandler(error, nil);
 							});
 							return;
 						default:
@@ -345,18 +345,18 @@
 						[[JSImageLoaderCache sharedCache] clearCachedDataForRequest:request];
 						// Error
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							errorBlock([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Invalid image data." forKey:NSLocalizedDescriptionKey]]);
+							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Invalid image data" forKey:NSLocalizedDescriptionKey]], nil);
 						});
 						return;
 					} else {
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							successBlock(image);
+							completionHandler(nil, image);
 						});
 						return;
 					}
 				} else {
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						errorBlock([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The image failed to download." forKey:NSLocalizedDescriptionKey]]);
+						completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The image failed to download." forKey:NSLocalizedDescriptionKey]], nil);
 					});
 					return;
 				}
