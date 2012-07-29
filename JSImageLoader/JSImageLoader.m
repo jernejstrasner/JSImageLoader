@@ -29,8 +29,6 @@
 #import "JSImageLoader.h"
 #import "JSImageLoaderCache.h"
 
-#import <libkern/OSAtomic.h>
-
 #define kNumberOfRetries 5
 
 const NSInteger kMaxDownloadConnections	= 1;
@@ -69,20 +67,15 @@ const NSInteger kMaxDownloadConnections	= 1;
 
 #pragma mark - Singleton
 
-/*
- * Singleton pattern by Louis Gerbarg
- * http://stackoverflow.com/questions/145154/what-does-your-objective-c-singleton-look-like/2449664#2449664
- */
++ (JSImageLoader *)sharedInstance
+{
+	static JSImageLoader *sharedInstance = nil;
+	static dispatch_once_t onceToken;
+	
+	dispatch_once(&onceToken, ^{
+		sharedInstance = [[JSImageLoader alloc] init];
+	});
 
-static void * volatile sharedInstance = nil;
-
-+ (JSImageLoader *)sharedInstance {
-	while (!sharedInstance) {
-		JSImageLoader *temp = [[self alloc] init];
-		if(!OSAtomicCompareAndSwapPtrBarrier(0x0, temp, &sharedInstance)) {
-			[temp release];
-		}
-	}
 	return sharedInstance;
 }
 
