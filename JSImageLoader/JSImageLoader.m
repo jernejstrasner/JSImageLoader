@@ -146,7 +146,7 @@
 					UIImage *image = [UIImage imageWithData:imageData];
 					if (!image) {
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Invalid image data" forKey:NSLocalizedDescriptionKey]], nil, url);
+							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url);
 						});
 						return;
 					} else {
@@ -160,7 +160,7 @@
 					}
 				} else {
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:[NSDictionary dictionaryWithObject:@"The image failed to download." forKey:NSLocalizedDescriptionKey]], nil, url);
+						completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url);
 					});
 					return;
 				}
