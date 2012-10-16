@@ -12,7 +12,7 @@
 
 @interface ImageCell : UITableViewCell
 
-@property (nonatomic, retain) NSURL *imageURL;
+@property (nonatomic, strong) NSURL *imageURL;
 @property (nonatomic, readonly) UIImageView *imageView;
 
 @end

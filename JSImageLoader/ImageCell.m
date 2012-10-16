@@ -18,8 +18,7 @@
 
 - (void)setImageURL:(NSURL *)url
 {
-	[_imageURL release];
-	_imageURL = [url retain];
+	_imageURL = url;
 	
 	self.imageView.image = nil;
 	
@@ -53,10 +52,5 @@
 
 #pragma mark - Memory management
 
-- (void)dealloc
-{
-	[imageView release];
-    [super dealloc];
-}
 
 @end

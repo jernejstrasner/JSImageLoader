@@ -57,7 +57,7 @@
 		NSLog(@"%@", obj);
 		if (error == nil) {
 			[self performBlockOnMainThread:^(void) {
-				data = [[obj valueForKey:@"items"] retain];
+				data = [obj valueForKey:@"items"];
 				[self.tableView reloadData];
 				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 			}];
@@ -88,9 +88,7 @@
 
 - (void)dealloc
 {
-	[data release];
 	[[JSImageLoader sharedInstance] cancelImageDownloads];
-    [super dealloc];
 }
 
 // Customize the number of sections in the table view.
@@ -111,7 +109,7 @@
     
     ImageCell *cell = (ImageCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[ImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[ImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
 	NSDictionary *obj = data[indexPath.row];

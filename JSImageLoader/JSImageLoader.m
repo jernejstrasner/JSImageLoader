@@ -58,9 +58,7 @@
 {
 	// Clean up the queue
 	[_imageDownloadQueue cancelAllOperations];
-	[_imageDownloadQueue release];
 	// Super
-	[super dealloc];
 }
 
 #pragma mark - Singleton
@@ -131,14 +129,18 @@
 						case NSURLErrorRedirectToNonExistentLocation:
 						case NSURLErrorFileDoesNotExist:
 						case NSURLErrorFileIsDirectory:
+						{
 							dispatch_async(dispatch_get_main_queue(), ^(void) {
 								completionHandler(error, nil, url);
 							});
 							return;
+						}
 						default:
+						{
 							// retry
 							if (retries_counter < 1) return;
 							continue;
+						}
 					}
 				}
 				else if (imageData != nil && response != nil) {
@@ -151,7 +153,7 @@
 						return;
 					} else {
 						// Image is valid, cache the data
-						[[NSURLCache sharedURLCache] storeCachedResponse:[[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] autorelease] forRequest:request];
+						[[NSURLCache sharedURLCache] storeCachedResponse:[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] forRequest:request];
 						
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
 							completionHandler(nil, image, url);
