@@ -114,7 +114,7 @@
         cell = [[[ImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 
-	NSDictionary *obj = [data objectAtIndex:indexPath.row];
+	NSDictionary *obj = data[indexPath.row];
 	cell.imageURL = [NSURL URLWithString:[obj valueForKeyPath:@"media.m"]];
 	cell.textLabel.text = [obj valueForKey:@"title"];
 	
