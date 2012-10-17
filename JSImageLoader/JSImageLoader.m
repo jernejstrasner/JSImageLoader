@@ -31,15 +31,9 @@
 #define kNumberOfRetries 2
 #define kMaxDownloadConnections	1
 
-
-@interface JSImageLoader () {
-@private
+@implementation JSImageLoader {
 	NSOperationQueue *_imageDownloadQueue;
 }
-
-@end
-
-@implementation JSImageLoader
 
 #pragma mark - Object lifecycle
 
@@ -58,7 +52,6 @@
 {
 	// Clean up the queue
 	[_imageDownloadQueue cancelAllOperations];
-	// Super
 }
 
 #pragma mark - Singleton
