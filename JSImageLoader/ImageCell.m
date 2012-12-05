@@ -22,7 +22,7 @@
 	
 	self.imageView.image = nil;
 	
-	[[JSImageLoader sharedInstance] getImageAtURL:url completionHandler:^(NSError *error, UIImage *image, NSURL *imageURL) {
+	[[JSImageLoader sharedInstance] getImageAtURL:url completionHandler:^(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached) {
 		if (error == nil && self.imageURL == imageURL) {
 			self.imageView.image = image;
 		}

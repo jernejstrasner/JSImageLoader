@@ -87,7 +87,7 @@
 
 #pragma mark - Block methods
 
-- (void)getImageAtURL:(NSURL *)url completionHandler:(void(^)(NSError *error, UIImage *image, NSURL *imageURL))completionHandler
+- (void)getImageAtURL:(NSURL *)url completionHandler:(void(^)(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached))completionHandler
 {
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		// Create a request
@@ -97,7 +97,7 @@
 		NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
 		if (cachedResponse) {
 			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				completionHandler(nil, [UIImage imageWithData:[cachedResponse data]], url);
+				completionHandler(nil, [UIImage imageWithData:[cachedResponse data]], url, YES);
 			});
 			return;
 		}
@@ -124,7 +124,7 @@
 						case NSURLErrorFileIsDirectory:
 						{
 							dispatch_async(dispatch_get_main_queue(), ^(void) {
-								completionHandler(error, nil, url);
+								completionHandler(error, nil, url, NO);
 							});
 							return;
 						}
@@ -141,7 +141,7 @@
 					UIImage *image = [UIImage imageWithData:imageData];
 					if (!image) {
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url);
+							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url, NO);
 						});
 						return;
 					} else {
@@ -149,13 +149,13 @@
 						[[NSURLCache sharedURLCache] storeCachedResponse:[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] forRequest:request];
 						
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							completionHandler(nil, image, url);
+							completionHandler(nil, image, url, NO);
 						});
 						return;
 					}
 				} else {
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url);
+						completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url, NO);
 					});
 					return;
 				}

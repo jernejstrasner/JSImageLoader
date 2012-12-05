@@ -40,6 +40,6 @@
 - (void)cancelImageDownloads;
 
 // Blocks
-- (void)getImageAtURL:(NSURL *)url completionHandler:(void(^)(NSError *error, UIImage *image, NSURL *imageURL))completionHandler;
+- (void)getImageAtURL:(NSURL *)url completionHandler:(void(^)(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached))completionHandler;
 
 @end

@@ -19,6 +19,7 @@
 		1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE12138A5CD40097B25C /* JSImageLoader.m */; };
 		193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557D0138BBABA00C9B018 /* NSObject+Threading.m */; };
 		193557E2138BC60E00C9B018 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557E1138BC60E00C9B018 /* ImageCell.m */; };
+		B847B71D166FE228007A049A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B847B71C166FE228007A049A /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		193557D0138BBABA00C9B018 /* NSObject+Threading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Threading.m"; sourceTree = "<group>"; };
 		193557E0138BC60E00C9B018 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		193557E1138BC60E00C9B018 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
+		B847B71C166FE228007A049A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 		1918BDE1138A5B8C0097B25C = {
 			isa = PBXGroup;
 			children = (
+				B847B71C166FE228007A049A /* Default-568h@2x.png */,
 				1918BDF6138A5B8C0097B25C /* JSImageLoader */,
 				1918BDEF138A5B8C0097B25C /* Frameworks */,
 				1918BDED138A5B8C0097B25C /* Products */,
@@ -157,6 +160,9 @@
 /* Begin PBXProject section */
 		1918BDE3138A5B8C0097B25C /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+			};
 			buildConfigurationList = 1918BDE6138A5B8C0097B25C /* Build configuration list for PBXProject "JSImageLoader" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -182,6 +188,7 @@
 				1918BDFB138A5B8C0097B25C /* InfoPlist.strings in Resources */,
 				1918BE04138A5B8C0097B25C /* MainWindow.xib in Resources */,
 				1918BE0A138A5B8C0097B25C /* RootViewController.xib in Resources */,
+				B847B71D166FE228007A049A /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
