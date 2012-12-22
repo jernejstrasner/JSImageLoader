@@ -43,7 +43,7 @@
 		193557D0138BBABA00C9B018 /* NSObject+Threading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Threading.m"; sourceTree = "<group>"; };
 		193557E0138BC60E00C9B018 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		193557E1138BC60E00C9B018 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
-		B847B71C166FE228007A049A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B847B71C166FE228007A049A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,6 @@
 		1918BDE1138A5B8C0097B25C = {
 			isa = PBXGroup;
 			children = (
-				B847B71C166FE228007A049A /* Default-568h@2x.png */,
 				1918BDF6138A5B8C0097B25C /* JSImageLoader */,
 				1918BDEF138A5B8C0097B25C /* Frameworks */,
 				1918BDED138A5B8C0097B25C /* Products */,
@@ -109,6 +108,7 @@
 		1918BDF7138A5B8C0097B25C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B847B71C166FE228007A049A /* Default-568h@2x.png */,
 				1918BDF8138A5B8C0097B25C /* JSImageLoader-Info.plist */,
 				1918BDF9138A5B8C0097B25C /* InfoPlist.strings */,
 				1918BDFC138A5B8C0097B25C /* JSImageLoader-Prefix.pch */,

@@ -14,7 +14,6 @@
 #pragma mark - Properties
 
 @synthesize imageView;
-@synthesize imageURL = _imageURL;
 
 - (void)setImageURL:(NSURL *)url
 {
@@ -49,8 +48,5 @@
 	self.imageView.frame = CGRectMake(5.0f, 5.0f, 54.0f, 54.0f);
 	self.textLabel.frame = CGRectMake(64.0f, 5.0f, 251.0f, 54.0f);
 }
-
-#pragma mark - Memory management
-
 
 @end
