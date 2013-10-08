@@ -28,8 +28,16 @@
 
 #import "JSImageLoader.h"
 
-#define kNumberOfRetries 2
-#define kMaxDownloadConnections	1
+#define kNumberOfRetries			2
+#define kMaxDownloadConnections		1
+#define kCacheMemoryCapacity		10
+#define kCacheDiskCapacity			10
+
+@interface JSImageLoader()
+
+@property (nonatomic, strong) NSURLCache *urlCache;
+
+@end
 
 @implementation JSImageLoader {
 	NSOperationQueue *_imageDownloadQueue;
@@ -44,6 +52,10 @@
 		// Initialize the queue
 		_imageDownloadQueue = [[NSOperationQueue alloc] init];
 		[_imageDownloadQueue setMaxConcurrentOperationCount:kMaxDownloadConnections];
+
+		_urlCache = [NSURLCache sharedURLCache];
+		_memoryCapacity = kCacheMemoryCapacity * 1024 * 1024;
+		_diskCapacity = kCacheDiskCapacity * 1024 * 1024;
 	}
 	return self;
 }
@@ -52,6 +64,35 @@
 {
 	// Clean up the queue
 	[_imageDownloadQueue cancelAllOperations];
+}
+
+#pragma mark - Custom caching
+
+- (void)setUseOwnCache:(BOOL)useOwnCache
+{
+	if (useOwnCache) {
+		_urlCache = [[NSURLCache alloc] initWithMemoryCapacity:self.memoryCapacity
+												  diskCapacity:self.diskCapacity
+													  diskPath:nil];
+	} else {
+		_urlCache = [NSURLCache sharedURLCache];
+	}
+}
+
+- (void)setMemoryCapacity:(NSUInteger)memoryCapacity
+{
+	if (_memoryCapacity == memoryCapacity) return;
+
+	[self.urlCache setMemoryCapacity:memoryCapacity];
+	_memoryCapacity = memoryCapacity;
+}
+
+- (void)setDiskCapacity:(NSUInteger)diskCapacity
+{
+	if (_diskCapacity == diskCapacity) return;
+
+	[self.urlCache setDiskCapacity:diskCapacity];
+	_diskCapacity = diskCapacity;
 }
 
 #pragma mark - Singleton
@@ -92,16 +133,15 @@
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		// Create a request
 		NSURLRequest *request = [NSURLRequest requestWithURL:url];
-		
 		// Check the cache
-		NSCachedURLResponse *cachedResponse = [[NSURLCache sharedURLCache] cachedResponseForRequest:request];
+		NSCachedURLResponse *cachedResponse = [self.urlCache cachedResponseForRequest:request];
 		if (cachedResponse) {
 			dispatch_async(dispatch_get_main_queue(), ^(void) {
 				completionHandler(nil, [UIImage imageWithData:[cachedResponse data]], url, YES);
 			});
 			return;
 		}
-		
+
 		// Load the image remotely
 		[_imageDownloadQueue addOperationWithBlock:^{
 			NSURLResponse *response = nil;
@@ -146,7 +186,7 @@
 						return;
 					} else {
 						// Image is valid, cache the data
-						[[NSURLCache sharedURLCache] storeCachedResponse:[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] forRequest:request];
+						[self.urlCache storeCachedResponse:[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] forRequest:request];
 						
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
 							completionHandler(nil, image, url, NO);
