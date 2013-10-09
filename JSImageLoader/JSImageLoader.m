@@ -28,10 +28,11 @@
 
 #import "JSImageLoader.h"
 
-#define kNumberOfRetries			2
-#define kMaxDownloadConnections		1
-#define kCacheMemoryCapacity		10
-#define kCacheDiskCapacity			10
+static NSString * const JSImageLoaderErrorDomain						= @"com.jernejstrasner.imageloader";
+static NSUInteger const JSImageLoaderNumberOfRetries					= 2;
+static NSUInteger const JSImageLoaderMaxDownloadConnections				= 1;
+static NSUInteger const JSImageLoaderCacheMemoryCapacity				= 10;
+static NSUInteger const JSImageLoaderCacheDiskCapacity					= 10;
 
 @interface JSImageLoader()
 
@@ -51,11 +52,11 @@
 	if (self) {
 		// Initialize the queue
 		_imageDownloadQueue = [[NSOperationQueue alloc] init];
-		[_imageDownloadQueue setMaxConcurrentOperationCount:kMaxDownloadConnections];
+		[_imageDownloadQueue setMaxConcurrentOperationCount:JSImageLoaderMaxDownloadConnections];
 
-		_urlCache = [NSURLCache sharedURLCache];
-		_memoryCapacity = kCacheMemoryCapacity * 1024 * 1024;
-		_diskCapacity = kCacheDiskCapacity * 1024 * 1024;
+		// Set the fallback values for the cache capacity
+		_memoryCapacity = JSImageLoaderCacheMemoryCapacity * 1024 * 1024;
+		_diskCapacity = JSImageLoaderCacheDiskCapacity * 1024 * 1024;
 	}
 	return self;
 }
@@ -68,15 +69,38 @@
 
 #pragma mark - Custom caching
 
-- (void)setUseOwnCache:(BOOL)useOwnCache
+- (void)initializeCache:(BOOL)useOwnCache
 {
+	// Initialize the URL cache
+	// If we use custom caching, set up the path suffix and the capacities
 	if (useOwnCache) {
 		_urlCache = [[NSURLCache alloc] initWithMemoryCapacity:self.memoryCapacity
 												  diskCapacity:self.diskCapacity
-													  diskPath:nil];
-	} else {
+													  diskPath:JSImageLoaderErrorDomain];
+	}
+	// Otherwise use the shared URL cache, possibly controlled by the container app
+	else {
 		_urlCache = [NSURLCache sharedURLCache];
 	}
+}
+
+- (NSURLCache *)urlCache
+{
+	// Make sure that the cache is properly initialized taking into account the custom caching flag
+	if (!_urlCache) {
+		[self initializeCache:self.useOwnCache];
+	}
+
+	return _urlCache;
+}
+
+- (void)setUseOwnCache:(BOOL)useOwnCache
+{
+	// When the custom caching flag changes we have to make sure that it initializes/sets the right URL cache
+	if (_useOwnCache == useOwnCache) return;
+
+	[self initializeCache:useOwnCache];
+	_useOwnCache = useOwnCache;
 }
 
 - (void)setMemoryCapacity:(NSUInteger)memoryCapacity
@@ -148,7 +172,7 @@
 			NSError *error = nil;
 			
 			// Retries
-			int retries_counter = kNumberOfRetries;
+			int retries_counter = JSImageLoaderNumberOfRetries;
 			NSData *imageData;
 			while(1) {
 				retries_counter--;
@@ -181,13 +205,13 @@
 					UIImage *image = [UIImage imageWithData:imageData];
 					if (!image) {
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url, NO);
+							completionHandler([NSError errorWithDomain:JSImageLoaderErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url, NO);
 						});
 						return;
 					} else {
 						// Image is valid, cache the data
 						[self.urlCache storeCachedResponse:[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] forRequest:request];
-						
+
 						dispatch_async(dispatch_get_main_queue(), ^(void) {
 							completionHandler(nil, image, url, NO);
 						});
@@ -195,7 +219,7 @@
 					}
 				} else {
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						completionHandler([NSError errorWithDomain:@"com.jernejstrasner.imageloader" code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url, NO);
+						completionHandler([NSError errorWithDomain:JSImageLoaderErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url, NO);
 					});
 					return;
 				}
