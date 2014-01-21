@@ -152,17 +152,25 @@ static NSUInteger const JSImageLoaderCacheDiskCapacity					= 10;
 
 #pragma mark - Block methods
 
-- (void)getImageAtURL:(NSURL *)url completionHandler:(void(^)(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached))completionHandler
+typedef void (^js_completion_handler_t)(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached);
+
+- (void)getImageAtURL:(NSURL *)url completionHandler:(js_completion_handler_t)completionHandler
 {
+	js_completion_handler_t executeCompletionHandlerOnMainQueue = ^(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached) {
+		if (completionHandler) {
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				completionHandler(error, image, imageURL, cached);
+			});
+		}
+	};
+
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		// Create a request
 		NSURLRequest *request = [NSURLRequest requestWithURL:url];
 		// Check the cache
 		NSCachedURLResponse *cachedResponse = [self.urlCache cachedResponseForRequest:request];
 		if (cachedResponse) {
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				completionHandler(nil, [UIImage imageWithData:[cachedResponse data]], url, YES);
-			});
+			executeCompletionHandlerOnMainQueue(nil, [UIImage imageWithData:[cachedResponse data]], url, YES);
 			return;
 		}
 
@@ -187,15 +195,16 @@ static NSUInteger const JSImageLoaderCacheDiskCapacity					= 10;
 						case NSURLErrorFileDoesNotExist:
 						case NSURLErrorFileIsDirectory:
 						{
-							dispatch_async(dispatch_get_main_queue(), ^(void) {
-								completionHandler(error, nil, url, NO);
-							});
+							executeCompletionHandlerOnMainQueue(error, nil, url, NO);
 							return;
 						}
 						default:
 						{
 							// retry
-							if (retries_counter < 1) return;
+							if (retries_counter < 1) {
+								executeCompletionHandlerOnMainQueue(error, nil, url, NO);
+								return;
+							}
 							continue;
 						}
 					}
@@ -204,23 +213,17 @@ static NSUInteger const JSImageLoaderCacheDiskCapacity					= 10;
 					// Build an image from the data
 					UIImage *image = [UIImage imageWithData:imageData];
 					if (!image) {
-						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							completionHandler([NSError errorWithDomain:JSImageLoaderErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url, NO);
-						});
+						executeCompletionHandlerOnMainQueue([NSError errorWithDomain:JSImageLoaderErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url, NO);
 						return;
 					} else {
 						// Image is valid, cache the data
 						[self.urlCache storeCachedResponse:[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] forRequest:request];
 
-						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							completionHandler(nil, image, url, NO);
-						});
+						executeCompletionHandlerOnMainQueue(nil, image, url, NO);
 						return;
 					}
 				} else {
-					dispatch_async(dispatch_get_main_queue(), ^(void) {
-						completionHandler([NSError errorWithDomain:JSImageLoaderErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url, NO);
-					});
+					executeCompletionHandlerOnMainQueue([NSError errorWithDomain:JSImageLoaderErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url, NO);
 					return;
 				}
 				
