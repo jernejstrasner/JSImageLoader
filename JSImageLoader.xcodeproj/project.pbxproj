@@ -19,6 +19,7 @@
 		1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE12138A5CD40097B25C /* JSImageLoader.m */; };
 		193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557D0138BBABA00C9B018 /* NSObject+Threading.m */; };
 		193557E2138BC60E00C9B018 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557E1138BC60E00C9B018 /* ImageCell.m */; };
+		71A646F7B52C4A72A9EB0B26 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1C805D8B5143588EA681BD /* libPods.a */; };
 		B847B71D166FE228007A049A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B847B71C166FE228007A049A /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,8 @@
 		193557D0138BBABA00C9B018 /* NSObject+Threading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Threading.m"; sourceTree = "<group>"; };
 		193557E0138BC60E00C9B018 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		193557E1138BC60E00C9B018 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
+		1D1C805D8B5143588EA681BD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		21599DC6D169465CA17B9F1A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		B847B71C166FE228007A049A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -54,6 +57,7 @@
 				1918BDF1138A5B8C0097B25C /* UIKit.framework in Frameworks */,
 				1918BDF3138A5B8C0097B25C /* Foundation.framework in Frameworks */,
 				1918BDF5138A5B8C0097B25C /* CoreGraphics.framework in Frameworks */,
+				71A646F7B52C4A72A9EB0B26 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +70,7 @@
 				1918BDF6138A5B8C0097B25C /* JSImageLoader */,
 				1918BDEF138A5B8C0097B25C /* Frameworks */,
 				1918BDED138A5B8C0097B25C /* Products */,
+				21599DC6D169465CA17B9F1A /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,6 +88,7 @@
 				1918BDF0138A5B8C0097B25C /* UIKit.framework */,
 				1918BDF2138A5B8C0097B25C /* Foundation.framework */,
 				1918BDF4138A5B8C0097B25C /* CoreGraphics.framework */,
+				1D1C805D8B5143588EA681BD /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -142,9 +148,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1918BE0D138A5B8C0097B25C /* Build configuration list for PBXNativeTarget "JSImageLoader" */;
 			buildPhases = (
+				5629E33BB8C74A419F8B534D /* Check Pods Manifest.lock */,
 				1918BDE8138A5B8C0097B25C /* Sources */,
 				1918BDE9138A5B8C0097B25C /* Frameworks */,
 				1918BDEA138A5B8C0097B25C /* Resources */,
+				8726294C5BBF4B28B50FEF53 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -161,7 +169,7 @@
 		1918BDE3138A5B8C0097B25C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = 1918BDE6138A5B8C0097B25C /* Build configuration list for PBXProject "JSImageLoader" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -193,6 +201,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5629E33BB8C74A419F8B534D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8726294C5BBF4B28B50FEF53 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1918BDE8138A5B8C0097B25C /* Sources */ = {
@@ -241,7 +282,6 @@
 		1918BE0B138A5B8C0097B25C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -250,7 +290,8 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -258,13 +299,12 @@
 		1918BE0C138A5B8C0097B25C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 			};
@@ -272,6 +312,7 @@
 		};
 		1918BE0E138A5B8C0097B25C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 21599DC6D169465CA17B9F1A /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -289,6 +330,7 @@
 		};
 		1918BE0F138A5B8C0097B25C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 21599DC6D169465CA17B9F1A /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
