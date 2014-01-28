@@ -19,25 +19,17 @@
  
  */
 //
-//  JSImageCacheAppDelegate.m
+//  JSImageCacheAppDelegate.h
 //  JSImageCache
 //
 //  Created by Jernej Strasner on 5/23/11.
 //  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
-#import "JSImageCacheAppDelegate.h"
+#import <UIKit/UIKit.h>
 
-@implementation JSImageCacheAppDelegate
+@interface JSILAppDelegate : NSObject <UIApplicationDelegate>
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-	// Override point for customization after application launch.
-	// Add the navigation controller's view to the window and display.
-	self.window.rootViewController = self.navigationController;
-	[self.window makeKeyAndVisible];
-    return YES;
-}
-
+@property (strong, nonatomic) UIWindow *window;
 
 @end

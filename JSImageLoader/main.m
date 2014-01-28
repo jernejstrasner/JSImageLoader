@@ -28,11 +28,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JSImageCacheAppDelegate.h"
+#import "JSILAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
 	@autoreleasepool {
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([JSImageCacheAppDelegate class]));
+	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([JSILAppDelegate class]));
 	}
 }

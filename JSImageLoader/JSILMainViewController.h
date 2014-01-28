@@ -19,18 +19,17 @@
  
  */
 //
-//  JSImageCacheAppDelegate.h
+//  RootViewController.h
 //  JSImageCache
 //
 //  Created by Jernej Strasner on 5/23/11.
 //  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
+#import "JSImageLoader.h"
+
 #import <UIKit/UIKit.h>
 
-@interface JSImageCacheAppDelegate : NSObject <UIApplicationDelegate>
-
-@property (nonatomic, strong) IBOutlet UIWindow *window;
-@property (nonatomic, strong) IBOutlet UINavigationController *navigationController;
+@interface JSILMainViewController : UICollectionViewController
 
 @end

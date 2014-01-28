@@ -8,11 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JSImageLoader.h"
+@interface JSILImageCell : UICollectionViewCell
 
-@interface ImageCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 
 @property (nonatomic, strong) NSURL *imageURL;
-@property (nonatomic, readonly) UIImageView *imageView;
 
 @end

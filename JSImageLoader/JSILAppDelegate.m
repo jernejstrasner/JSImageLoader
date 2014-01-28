@@ -19,17 +19,21 @@
  
  */
 //
-//  RootViewController.h
+//  JSImageCacheAppDelegate.m
 //  JSImageCache
 //
 //  Created by Jernej Strasner on 5/23/11.
 //  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
-#import "JSImageLoader.h"
+#import "JSILAppDelegate.h"
 
-#import <UIKit/UIKit.h>
+@implementation JSILAppDelegate
 
-@interface RootViewController : UITableViewController
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{	
+    return YES;
+}
+
 
 @end

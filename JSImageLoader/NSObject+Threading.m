@@ -8,8 +8,7 @@
 
 #import "NSObject+Threading.h"
 
-
-@implementation NSObject (Threading)
+@implementation NSObject (JSILThreading)
 
 - (void)performBlockOnMainThread:(void (^)(void))block
 {
