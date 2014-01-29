@@ -11,6 +11,8 @@
 
 @interface JSILCache : NSObject
 
++ (JSILCache *)sharedCache;
+
 - (void)cacheImage:(UIImage *)image forURL:(NSURL *)url;
 - (void)imageForURL:(NSURL *)url completion:(void(^)(UIImage *image))completion;
 

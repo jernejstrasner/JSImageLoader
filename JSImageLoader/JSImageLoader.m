@@ -8,6 +8,10 @@
 
 #import "JSImageLoader.h"
 
+#import "JSILCache.h"
+
+#define JSILExecuteBlockOnMainThread(block, ...) if (block) { dispatch_async(dispatch_get_main_queue(), ^{ block(__VA_ARGS__); }); }
+
 static NSString * const JSImageLoaderErrorDomain						= @"com.jernejstrasner.imageloader";
 static NSUInteger const JSImageLoaderNumberOfRetries					= 2;
 static NSUInteger const JSImageLoaderMaxDownloadConnections				= 1;
@@ -72,32 +76,26 @@ typedef void (^js_completion_handler_t)(NSError *error, UIImage *image, NSURL *i
 
 - (void)getImageAtURL:(NSURL *)url completionHandler:(js_completion_handler_t)completionHandler
 {
-	js_completion_handler_t executeCompletionHandlerOnMainQueue = ^(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached) {
-		if (completionHandler) {
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				completionHandler(error, image, imageURL, cached);
-			});
+	[[JSILCache sharedCache] imageForURL:url completion:^(UIImage *image) {
+		// If we have the image call the completion block and return
+		if (image) {
+			JSILExecuteBlockOnMainThread(completionHandler, nil, image, url, YES);
+			return;
 		}
-	};
-
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-		// Create a request
-		NSURLRequest *request = [NSURLRequest requestWithURL:url];
 		
-#warning TODO: Check the cache for the image
-		
-		// Load the image remotely
+		// Looks like we didn't find the image. Download it.
 		[self.downloadQueue addOperationWithBlock:^{
-			NSURLResponse *response = nil;
-			NSError *error = nil;
+			NSURLRequest *request = [NSURLRequest requestWithURL:url];
+			NSURLResponse *response;
+			NSError *error;
 			
 			// Retries
 			int retries_counter = JSImageLoaderNumberOfRetries;
 			NSData *imageData;
-			while(1) {
-				retries_counter--;
-
-				imageData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+			while(retries_counter--) {
+				imageData = [NSURLConnection sendSynchronousRequest:request
+												  returningResponse:&response
+															  error:&error];
 				if (error) {
 					switch ([error code]) {
 						case NSURLErrorUnsupportedURL:
@@ -107,42 +105,44 @@ typedef void (^js_completion_handler_t)(NSError *error, UIImage *image, NSURL *i
 						case NSURLErrorFileDoesNotExist:
 						case NSURLErrorFileIsDirectory:
 						{
-							executeCompletionHandlerOnMainQueue(error, nil, url, NO);
+							JSILExecuteBlockOnMainThread(completionHandler, error, nil, url, NO);
 							return;
 						}
 						default:
 						{
 							// retry
 							if (retries_counter < 1) {
-								executeCompletionHandlerOnMainQueue(error, nil, url, NO);
+								JSILExecuteBlockOnMainThread(completionHandler, error, nil, url, NO);
 								return;
 							}
 							continue;
 						}
 					}
 				}
-				else if (imageData != nil && response != nil) {
+				else if (imageData.length && response) {
 					// Build an image from the data
 					UIImage *image = [UIImage imageWithData:imageData];
 					if (!image) {
-						executeCompletionHandlerOnMainQueue([NSError errorWithDomain:JSImageLoaderErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url, NO);
+						NSError *error = [NSError errorWithDomain:JSImageLoaderErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}];
+						JSILExecuteBlockOnMainThread(completionHandler, error, nil, url, NO);
 						return;
 					}
 					else {
-#warning TODO: Cache the data
-						executeCompletionHandlerOnMainQueue(nil, image, url, NO);
+						// Cache the image
+						[[JSILCache sharedCache] cacheImage:image forURL:url];
+						// Callback
+						JSILExecuteBlockOnMainThread(completionHandler, nil, image, url, NO);
 						return;
 					}
 				}
 				else {
-					executeCompletionHandlerOnMainQueue([NSError errorWithDomain:JSImageLoaderErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url, NO);
+					NSError *error = [NSError errorWithDomain:JSImageLoaderErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}];
+					JSILExecuteBlockOnMainThread(completionHandler, error, nil, url, NO);
 					return;
 				}
-				
 			}
-			
 		}];
-	});
+	}];
 }
 
 @end
