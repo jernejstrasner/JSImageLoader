@@ -20,6 +20,7 @@
 		71A646F7B52C4A72A9EB0B26 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1C805D8B5143588EA681BD /* libPods.a */; };
 		B8A135D3189863D5000A2511 /* Main-iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */; };
 		B8A135D5189863F8000A2511 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D4189863F8000A2511 /* Images.xcassets */; };
+		B8A135D918987F8A000A2511 /* JSILCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135D818987F8A000A2511 /* JSILCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,8 @@
 		21599DC6D169465CA17B9F1A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main-iPhone.storyboard"; sourceTree = "<group>"; };
 		B8A135D4189863F8000A2511 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		B8A135D718987F8A000A2511 /* JSILCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILCache.h; sourceTree = "<group>"; };
+		B8A135D818987F8A000A2511 /* JSILCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,8 @@
 			children = (
 				1918BE11138A5CD40097B25C /* JSImageLoader.h */,
 				1918BE12138A5CD40097B25C /* JSImageLoader.m */,
+				B8A135D718987F8A000A2511 /* JSILCache.h */,
+				B8A135D818987F8A000A2511 /* JSILCache.m */,
 			);
 			name = JSImageLoader;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */,
 				193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */,
 				193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */,
+				B8A135D918987F8A000A2511 /* JSILCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

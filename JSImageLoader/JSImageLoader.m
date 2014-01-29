@@ -1,23 +1,3 @@
-/*
- Copyright (c) 2011 Jernej Strasner
-
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- and associated documentation files (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge, publish, distribute,
- sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
- is furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in all copies or
- substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
- PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
- FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
- ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.
- 
- */
 //
 //  CachedImageLoader.m
 //  JSImageCache
@@ -31,95 +11,14 @@
 static NSString * const JSImageLoaderErrorDomain						= @"com.jernejstrasner.imageloader";
 static NSUInteger const JSImageLoaderNumberOfRetries					= 2;
 static NSUInteger const JSImageLoaderMaxDownloadConnections				= 1;
-static NSUInteger const JSImageLoaderCacheMemoryCapacity				= 10;
-static NSUInteger const JSImageLoaderCacheDiskCapacity					= 10;
 
 @interface JSImageLoader()
-
-@property (nonatomic, strong) NSURLCache *urlCache;
-
+@property (nonatomic, strong) NSOperationQueue *downloadQueue;
 @end
 
-@implementation JSImageLoader {
-	NSOperationQueue *_imageDownloadQueue;
-}
+@implementation JSImageLoader
 
-#pragma mark - Object lifecycle
-
-- (id)init
-{
-	self = [super init];
-	if (self) {
-		// Initialize the queue
-		_imageDownloadQueue = [[NSOperationQueue alloc] init];
-		[_imageDownloadQueue setMaxConcurrentOperationCount:JSImageLoaderMaxDownloadConnections];
-
-		// Set the fallback values for the cache capacity
-		_memoryCapacity = JSImageLoaderCacheMemoryCapacity * 1024 * 1024;
-		_diskCapacity = JSImageLoaderCacheDiskCapacity * 1024 * 1024;
-	}
-	return self;
-}
-
-- (void)dealloc
-{
-	// Clean up the queue
-	[_imageDownloadQueue cancelAllOperations];
-}
-
-#pragma mark - Custom caching
-
-- (void)initializeCache:(BOOL)useOwnCache
-{
-	// Initialize the URL cache
-	// If we use custom caching, set up the path suffix and the capacities
-	if (useOwnCache) {
-		_urlCache = [[NSURLCache alloc] initWithMemoryCapacity:self.memoryCapacity
-												  diskCapacity:self.diskCapacity
-													  diskPath:JSImageLoaderErrorDomain];
-	}
-	// Otherwise use the shared URL cache, possibly controlled by the container app
-	else {
-		_urlCache = [NSURLCache sharedURLCache];
-	}
-}
-
-- (NSURLCache *)urlCache
-{
-	// Make sure that the cache is properly initialized taking into account the custom caching flag
-	if (!_urlCache) {
-		[self initializeCache:self.useOwnCache];
-	}
-
-	return _urlCache;
-}
-
-- (void)setUseOwnCache:(BOOL)useOwnCache
-{
-	// When the custom caching flag changes we have to make sure that it initializes/sets the right URL cache
-	if (_useOwnCache == useOwnCache) return;
-
-	[self initializeCache:useOwnCache];
-	_useOwnCache = useOwnCache;
-}
-
-- (void)setMemoryCapacity:(NSUInteger)memoryCapacity
-{
-	if (_memoryCapacity == memoryCapacity) return;
-
-	[self.urlCache setMemoryCapacity:memoryCapacity];
-	_memoryCapacity = memoryCapacity;
-}
-
-- (void)setDiskCapacity:(NSUInteger)diskCapacity
-{
-	if (_diskCapacity == diskCapacity) return;
-
-	[self.urlCache setDiskCapacity:diskCapacity];
-	_diskCapacity = diskCapacity;
-}
-
-#pragma mark - Singleton
+#pragma mark - Lifecycle
 
 + (JSImageLoader *)sharedInstance
 {
@@ -129,25 +28,42 @@ static NSUInteger const JSImageLoaderCacheDiskCapacity					= 10;
 	dispatch_once(&onceToken, ^{
 		sharedInstance = [[JSImageLoader alloc] init];
 	});
-
+	
 	return sharedInstance;
+}
+
+- (id)init
+{
+	self = [super init];
+	if (self) {
+		// Initialize the queue
+		_downloadQueue = [[NSOperationQueue alloc] init];
+		[_downloadQueue setMaxConcurrentOperationCount:JSImageLoaderMaxDownloadConnections];
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+	// Clean up the queue
+	[_downloadQueue cancelAllOperations];
 }
 
 #pragma mark - Actions
 
 - (void)suspendImageDownloads
 {
-	[_imageDownloadQueue setSuspended:YES];
+	[self.downloadQueue setSuspended:YES];
 }
 
 - (void)resumeImageDownloads
 {
-	[_imageDownloadQueue setSuspended:NO];
+	[self.downloadQueue setSuspended:NO];
 }
 
 - (void)cancelImageDownloads
 {
-	[_imageDownloadQueue cancelAllOperations];
+	[self.downloadQueue cancelAllOperations];
 }
 
 #pragma mark - Block methods
@@ -167,15 +83,11 @@ typedef void (^js_completion_handler_t)(NSError *error, UIImage *image, NSURL *i
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		// Create a request
 		NSURLRequest *request = [NSURLRequest requestWithURL:url];
-		// Check the cache
-		NSCachedURLResponse *cachedResponse = [self.urlCache cachedResponseForRequest:request];
-		if (cachedResponse) {
-			executeCompletionHandlerOnMainQueue(nil, [UIImage imageWithData:[cachedResponse data]], url, YES);
-			return;
-		}
-
+		
+#warning TODO: Check the cache for the image
+		
 		// Load the image remotely
-		[_imageDownloadQueue addOperationWithBlock:^{
+		[self.downloadQueue addOperationWithBlock:^{
 			NSURLResponse *response = nil;
 			NSError *error = nil;
 			
@@ -215,14 +127,14 @@ typedef void (^js_completion_handler_t)(NSError *error, UIImage *image, NSURL *i
 					if (!image) {
 						executeCompletionHandlerOnMainQueue([NSError errorWithDomain:JSImageLoaderErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}], nil, url, NO);
 						return;
-					} else {
-						// Image is valid, cache the data
-						[self.urlCache storeCachedResponse:[[NSCachedURLResponse alloc] initWithResponse:response data:imageData] forRequest:request];
-
+					}
+					else {
+#warning TODO: Cache the data
 						executeCompletionHandlerOnMainQueue(nil, image, url, NO);
 						return;
 					}
-				} else {
+				}
+				else {
 					executeCompletionHandlerOnMainQueue([NSError errorWithDomain:JSImageLoaderErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}], nil, url, NO);
 					return;
 				}

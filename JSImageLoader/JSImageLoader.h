@@ -42,9 +42,4 @@
 // Blocks
 - (void)getImageAtURL:(NSURL *)url completionHandler:(void(^)(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached))completionHandler;
 
-@property (nonatomic, assign) BOOL useOwnCache;
-@property (nonatomic, assign) NSUInteger memoryCapacity;
-@property (nonatomic, assign) NSUInteger diskCapacity;
-
-
 @end
