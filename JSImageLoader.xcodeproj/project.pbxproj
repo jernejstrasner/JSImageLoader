@@ -22,6 +22,7 @@
 		B8A135D5189863F8000A2511 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D4189863F8000A2511 /* Images.xcassets */; };
 		B8A135D918987F8A000A2511 /* JSILCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135D818987F8A000A2511 /* JSILCache.m */; };
 		B8A135DC18988137000A2511 /* JSILImage.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135DB18988137000A2511 /* JSILImage.m */; };
+		B8A135DE18988986000A2511 /* cache.db in Resources */ = {isa = PBXBuildFile; fileRef = B8A135DD18988986000A2511 /* cache.db */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		B8A135D818987F8A000A2511 /* JSILCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILCache.m; sourceTree = "<group>"; };
 		B8A135DA18988137000A2511 /* JSILImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILImage.h; sourceTree = "<group>"; };
 		B8A135DB18988137000A2511 /* JSILImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILImage.m; sourceTree = "<group>"; };
+		B8A135DD18988986000A2511 /* cache.db */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cache.db; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 		1918BE10138A5CC50097B25C /* JSImageLoader */ = {
 			isa = PBXGroup;
 			children = (
+				B8A135DD18988986000A2511 /* cache.db */,
 				1918BE11138A5CD40097B25C /* JSImageLoader.h */,
 				1918BE12138A5CD40097B25C /* JSImageLoader.m */,
 				B8A135D718987F8A000A2511 /* JSILCache.h */,
@@ -205,6 +208,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8A135DE18988986000A2511 /* cache.db in Resources */,
 				1918BDFB138A5B8C0097B25C /* InfoPlist.strings in Resources */,
 				B8A135D5189863F8000A2511 /* Images.xcassets in Resources */,
 				B8A135D3189863D5000A2511 /* Main-iPhone.storyboard in Resources */,
