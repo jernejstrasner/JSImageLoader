@@ -12,6 +12,25 @@
 
 #pragma mark - Paths
 
++ (void)prepareDatabase
+{
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSString *databasePath = [self cacheDatabasePath];
+	
+	if ([fm fileExistsAtPath:databasePath]) return;
+	
+	NSString *bundledDatabasePath = [[NSBundle mainBundle] pathForResource:@"cache" ofType:@"db"];
+	NSError *error;
+	[fm copyItemAtPath:bundledDatabasePath toPath:databasePath error:&error];
+	
+	if (error) {
+		NSLog(@"[ERROR] Couldn't copy database to cache folder!");
+	}
+	else {
+		NSLog(@"Database copied to %@", databasePath);
+	}
+}
+
 + (NSString *)cachePath
 {
 	NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
