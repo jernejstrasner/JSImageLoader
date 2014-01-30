@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <FMDB/FMDatabase.h>
+#import "FMDatabase.h"
 
 @interface JSILCache : NSObject
 

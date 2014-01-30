@@ -37,14 +37,16 @@
 
 - (void)setupCache
 {
-	// Prepare the database file
-	[self prepareDatabase];
-	
 	// Create the database queue
-	databaseQueue = dispatch_queue_create("com.jernejstrasner.imageloader.databse", 0);
+	databaseQueue = dispatch_queue_create("com.jernejstrasner.imageloader.database", 0);
 	
 	// Keep an open connection for fast access
 	[self openDatabase];
+	
+	// Create database structure if not present
+	dispatch_async(databaseQueue, ^{
+		[self.database executeUpdate:@"CREATE TABLE IF NOT EXISTS images ( data BLOB, url TEXT PRIMARY KEY )"];
+	});
 	
 	// Start listening for notifications so we can close the database properly
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDatabase) name:UIApplicationWillTerminateNotification object:nil];
@@ -65,7 +67,7 @@
 - (void)openDatabase
 {
 	if (![self.database open]) {
-		NSLog(@"[ERROR] Could not open cache database!");
+		NSLog(@"[ERROR] %@", self.database.lastErrorMessage);
 	}
 }
 
@@ -141,25 +143,6 @@
 
 #pragma mark - Paths
 
-- (void)prepareDatabase
-{
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSString *databasePath = [self databasePath];
-	
-	if ([fm fileExistsAtPath:databasePath]) return;
-	
-	NSString *bundledDatabasePath = [[NSBundle mainBundle] pathForResource:@"cache" ofType:@"db"];
-	NSError *error;
-	[fm copyItemAtPath:bundledDatabasePath toPath:databasePath error:&error];
-	
-	if (error) {
-		NSLog(@"[ERROR] Couldn't copy database to cache folder!");
-	}
-	else {
-		NSLog(@"Database copied to %@", databasePath);
-	}
-}
-
 - (NSString *)cachePath
 {
 	NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -172,7 +155,7 @@
 	BOOL isDir = NO;
 	BOOL fileExists = [fm fileExistsAtPath:cachePath isDirectory:&isDir];
 	
-	if (fileExists && isDir) {
+	if (fileExists && !isDir) {
 		NSError *deletionError;
 		[fm removeItemAtPath:cachePath error:&deletionError];
 		if (deletionError) {
@@ -194,7 +177,7 @@
 
 - (NSString *)databasePath
 {
-	return [[self cachePath] stringByAppendingPathComponent:@"cache.db"];
+	return [[self cachePath] stringByAppendingPathComponent:@"ImageCache.db"];
 }
 
 @end
