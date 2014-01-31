@@ -12,16 +12,24 @@
 
 @implementation JSILImageCell
 
+- (void)prepareForReuse
+{
+	[super prepareForReuse];
+	
+	_imageView.image = nil;
+	_imageURL = nil;
+}
+
 - (void)setImageURL:(NSURL *)url
 {
-	if (_imageURL == url) return;
+	if ([_imageURL isEqual:url]) return;
 	_imageURL = url;
 	
-	self.imageView.image = nil;
-	
+	__weak __typeof__(self) weakSelf = self;
 	[[JSImageLoader sharedInstance] getImageAtURL:url completionHandler:^(NSError *error, UIImage *image, NSURL *imageURL, BOOL cached) {
-		if (error == nil && self.imageURL == imageURL) {
-			self.imageView.image = image;
+		__typeof__(self) strongSelf = weakSelf;
+		if (image && [strongSelf.imageURL isEqual:imageURL]) {
+			strongSelf.imageView.image = image;
 		}
 	}];
 }
