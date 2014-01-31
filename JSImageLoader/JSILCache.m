@@ -40,7 +40,6 @@
 
 - (void)setupCache
 {
-	// Create the database queue
 	cacheQueue = dispatch_queue_create("com.jernejstrasner.imageloader.cache", DISPATCH_QUEUE_CONCURRENT);
 }
 
@@ -52,6 +51,7 @@
 		
 		NSString *hash = [self md5HashFromString:urlString];
 		NSString *path = [[self cachePath] stringByAppendingPathComponent:hash];
+		
 		[imageData writeToFile:path atomically:YES];
 	});
 }
@@ -76,7 +76,7 @@
 			img_t = JSProfilingTimerEnd(img_timer);
 		}
 		
-		NSLog(@"Data fetch: %0.2fs | Image init: %0.2fs | Data size: %ld", fetch_t, img_t, imageData.length);
+		NSLog(@"Data fetch: %0.2fs | Image init: %0.2fs | Data size: %0.2fkB", fetch_t, img_t, imageData.length/1024.0);
 		
 		if (completion) {
 			dispatch_async(dispatch_get_main_queue(), ^{
