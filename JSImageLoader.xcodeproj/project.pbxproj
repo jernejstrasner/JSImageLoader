@@ -17,7 +17,6 @@
 		1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE12138A5CD40097B25C /* JSImageLoader.m */; };
 		193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557D0138BBABA00C9B018 /* NSObject+Threading.m */; };
 		193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557E1138BC60E00C9B018 /* JSILImageCell.m */; };
-		71A646F7B52C4A72A9EB0B26 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1C805D8B5143588EA681BD /* libPods.a */; };
 		B8A135D3189863D5000A2511 /* Main-iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */; };
 		B8A135D5189863F8000A2511 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D4189863F8000A2511 /* Images.xcassets */; };
 		B8A135D918987F8A000A2511 /* JSILCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135D818987F8A000A2511 /* JSILCache.m */; };
@@ -44,8 +43,6 @@
 		193557D0138BBABA00C9B018 /* NSObject+Threading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Threading.m"; sourceTree = "<group>"; };
 		193557E0138BC60E00C9B018 /* JSILImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILImageCell.h; sourceTree = "<group>"; };
 		193557E1138BC60E00C9B018 /* JSILImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILImageCell.m; sourceTree = "<group>"; };
-		1D1C805D8B5143588EA681BD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		21599DC6D169465CA17B9F1A /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main-iPhone.storyboard"; sourceTree = "<group>"; };
 		B8A135D4189863F8000A2511 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B8A135D718987F8A000A2511 /* JSILCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILCache.h; sourceTree = "<group>"; };
@@ -64,7 +61,6 @@
 				1918BDF1138A5B8C0097B25C /* UIKit.framework in Frameworks */,
 				1918BDF3138A5B8C0097B25C /* Foundation.framework in Frameworks */,
 				1918BDF5138A5B8C0097B25C /* CoreGraphics.framework in Frameworks */,
-				71A646F7B52C4A72A9EB0B26 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +73,6 @@
 				1918BDF6138A5B8C0097B25C /* JSImageLoader */,
 				1918BDEF138A5B8C0097B25C /* Frameworks */,
 				1918BDED138A5B8C0097B25C /* Products */,
-				21599DC6D169465CA17B9F1A /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,7 +90,6 @@
 				1918BDF0138A5B8C0097B25C /* UIKit.framework */,
 				1918BDF2138A5B8C0097B25C /* Foundation.framework */,
 				1918BDF4138A5B8C0097B25C /* CoreGraphics.framework */,
-				1D1C805D8B5143588EA681BD /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -160,11 +154,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1918BE0D138A5B8C0097B25C /* Build configuration list for PBXNativeTarget "JSImageLoader" */;
 			buildPhases = (
-				5629E33BB8C74A419F8B534D /* Check Pods Manifest.lock */,
 				1918BDE8138A5B8C0097B25C /* Sources */,
 				1918BDE9138A5B8C0097B25C /* Frameworks */,
 				1918BDEA138A5B8C0097B25C /* Resources */,
-				8726294C5BBF4B28B50FEF53 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -217,39 +209,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		5629E33BB8C74A419F8B534D /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		8726294C5BBF4B28B50FEF53 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1918BDE8138A5B8C0097B25C /* Sources */ = {
@@ -315,7 +274,6 @@
 		};
 		1918BE0E138A5B8C0097B25C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21599DC6D169465CA17B9F1A /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
@@ -338,7 +296,6 @@
 		};
 		1918BE0F138A5B8C0097B25C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21599DC6D169465CA17B9F1A /* Pods.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
