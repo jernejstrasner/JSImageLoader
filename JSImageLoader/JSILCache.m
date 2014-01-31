@@ -8,10 +8,13 @@
 
 #import "JSILCache.h"
 
+#import "JSProfilingTimer.h"
+
+#import <CommonCrypto/CommonCrypto.h>
+
 @interface JSILCache () {
-	dispatch_queue_t databaseQueue;
+	dispatch_queue_t cacheQueue;
 }
-@property (nonatomic, strong) FMDatabase *database;
 @end
 
 @implementation JSILCache
@@ -38,71 +41,42 @@
 - (void)setupCache
 {
 	// Create the database queue
-	databaseQueue = dispatch_queue_create("com.jernejstrasner.imageloader.database", 0);
-	
-	// Keep an open connection for fast access
-	[self openDatabase];
-	
-	// Create database structure if not present
-	dispatch_async(databaseQueue, ^{
-		[self.database executeUpdate:@"CREATE TABLE IF NOT EXISTS images ( data BLOB, url TEXT PRIMARY KEY )"];
-	});
-	
-	// Start listening for notifications so we can close the database properly
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDatabase) name:UIApplicationWillTerminateNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeDatabase) name:UIApplicationDidEnterBackgroundNotification object:nil];
-	
-	// Open connection again if app enters foreground
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openDatabase) name:UIApplicationWillEnterForegroundNotification object:nil];
-}
-
-- (FMDatabase *)database
-{
-	if (!_database) {
-		_database = [[FMDatabase alloc] initWithPath:[self databasePath]];
-	}
-	return _database;
-}
-
-- (void)openDatabase
-{
-	if (![self.database open]) {
-		NSLog(@"[ERROR] %@", self.database.lastErrorMessage);
-	}
-}
-
-- (void)closeDatabase
-{
-	dispatch_async(databaseQueue, ^{
-		[self.database close];
-	});
+	cacheQueue = dispatch_queue_create("com.jernejstrasner.imageloader.cache", DISPATCH_QUEUE_CONCURRENT);
 }
 
 - (void)cacheImage:(UIImage *)image forURL:(NSURL *)url
 {
-	dispatch_async(databaseQueue, ^{
+	dispatch_async(cacheQueue, ^{
 		NSData *imageData = [self dataFromImage:image];
 		NSString *urlString = [url absoluteString];
 		
-		[self.database executeUpdate:@"INSERT OR REPLACE INTO images (data, url) VALUES (?, ?)", imageData, urlString];
+		NSString *hash = [self md5HashFromString:urlString];
+		NSString *path = [[self cachePath] stringByAppendingPathComponent:hash];
+		[imageData writeToFile:path atomically:YES];
 	});
 }
 
 - (void)imageForURL:(NSURL *)url completion:(void(^)(UIImage *image))completion
 {
-	dispatch_async(databaseQueue, ^{
+	dispatch_async(cacheQueue, ^{
 		NSString *urlString = [url absoluteString];
 		
-		FMResultSet *results = [self.database executeQuery:@"SELECT data FROM images WHERE url IS ? LIMIT 1", urlString];
+		js_timer_t timer = JSProfilingTimerStart();
 		NSData *imageData;
-		if ([results next]) {
-			imageData = [results dataForColumn:@"data"];
-		}
+		NSString *hash = [self md5HashFromString:urlString];
+		NSString *path = [[self cachePath] stringByAppendingPathComponent:hash];
+		imageData = [[NSData alloc] initWithContentsOfFile:path];
+		float fetch_t = JSProfilingTimerEnd(timer);
 		
 		UIImage *image;
+		float img_t;
 		if (imageData.length) {
+			js_timer_t img_timer = JSProfilingTimerStart();
 			image = [self imageFromData:imageData];
+			img_t = JSProfilingTimerEnd(img_timer);
 		}
+		
+		NSLog(@"Data fetch: %0.2fs | Image init: %0.2fs | Data size: %ld", fetch_t, img_t, imageData.length);
 		
 		if (completion) {
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -137,7 +111,6 @@
 
 - (UIImage *)imageFromData:(NSData *)data
 {
-	#warning TODO: Check if CGBitmapContext would be faster here
 	return [[UIImage alloc] initWithData:data];
 }
 
@@ -175,9 +148,20 @@
 	return cachePath;
 }
 
-- (NSString *)databasePath
+#pragma mark - Utility
+
+- (NSString *)md5HashFromString:(NSString *)string
 {
-	return [[self cachePath] stringByAppendingPathComponent:@"ImageCache.db"];
+	const char *cStr = [string UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5( cStr, (CC_LONG)strlen(cStr), result ); // This is the md5 call
+
+	NSMutableString *hash = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+	for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+		[hash appendFormat:@"%02x", result[i]];
+	}
+	
+	return [NSString stringWithString:hash];
 }
 
 @end
