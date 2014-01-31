@@ -46,13 +46,20 @@
 - (void)cacheImage:(UIImage *)image forURL:(NSURL *)url
 {
 	dispatch_async(cacheQueue, ^{
+		js_timer_t img_t = JSProfilingTimerStart();
 		NSData *imageData = [self dataFromImage:image];
+		float img_time = JSProfilingTimerEnd(img_t);
+		
 		NSString *urlString = [url absoluteString];
 		
 		NSString *hash = [self md5HashFromString:urlString];
 		NSString *path = [[self cachePath] stringByAppendingPathComponent:hash];
 		
+		js_timer_t write_t = JSProfilingTimerStart();
 		[imageData writeToFile:path atomically:YES];
+		float write_time = JSProfilingTimerEnd(write_t);
+		
+		NSLog(@"[WRITE] %0.2fs | Image conversion: %0.2fs | Data size: %0.2fkB", write_time, img_time, imageData.length/1024.0);
 	});
 }
 
@@ -76,7 +83,7 @@
 			img_t = JSProfilingTimerEnd(img_timer);
 		}
 		
-		NSLog(@"Data fetch: %0.2fs | Image init: %0.2fs | Data size: %0.2fkB", fetch_t, img_t, imageData.length/1024.0);
+		NSLog(@"[READ] %0.2fs | Image conversion: %0.2fs | Data size: %0.2fkB", fetch_t, img_t, imageData.length/1024.0);
 		
 		if (completion) {
 			dispatch_async(dispatch_get_main_queue(), ^{
