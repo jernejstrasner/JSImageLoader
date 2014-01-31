@@ -59,7 +59,7 @@
 		[imageData writeToFile:path atomically:YES];
 		float write_time = JSProfilingTimerEnd(write_t);
 		
-		NSLog(@"[WRITE] %0.2fs | Image conversion: %0.2fs | Data size: %0.2fkB", write_time, img_time, imageData.length/1024.0);
+		NSLog(@"[WRITE] %0.2fs | Image conversion: %0.2fs | Data size: %0.2fkB | %@", write_time, img_time, imageData.length/1024.0, urlString);
 	});
 }
 
@@ -83,7 +83,7 @@
 			img_t = JSProfilingTimerEnd(img_timer);
 		}
 		
-		NSLog(@"[READ] %0.2fs | Image conversion: %0.2fs | Data size: %0.2fkB", fetch_t, img_t, imageData.length/1024.0);
+		NSLog(@"[READ] %0.2fs | Image conversion: %0.2fs | Data size: %0.2fkB | %@", fetch_t, img_t, imageData.length/1024.0, urlString);
 		
 		if (completion) {
 			dispatch_async(dispatch_get_main_queue(), ^{
