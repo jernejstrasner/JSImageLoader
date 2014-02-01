@@ -20,7 +20,6 @@
 		B8A135D3189863D5000A2511 /* Main-iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */; };
 		B8A135D5189863F8000A2511 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D4189863F8000A2511 /* Images.xcassets */; };
 		B8A135D918987F8A000A2511 /* JSILCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135D818987F8A000A2511 /* JSILCache.m */; };
-		B8A135DC18988137000A2511 /* JSILImage.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135DB18988137000A2511 /* JSILImage.m */; };
 		B8ED1868189B0CC30043926C /* JSProfilingTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = B8ED1867189B0CC30043926C /* JSProfilingTimer.m */; };
 /* End PBXBuildFile section */
 
@@ -47,8 +46,6 @@
 		B8A135D4189863F8000A2511 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B8A135D718987F8A000A2511 /* JSILCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILCache.h; sourceTree = "<group>"; };
 		B8A135D818987F8A000A2511 /* JSILCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILCache.m; sourceTree = "<group>"; };
-		B8A135DA18988137000A2511 /* JSILImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILImage.h; sourceTree = "<group>"; };
-		B8A135DB18988137000A2511 /* JSILImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILImage.m; sourceTree = "<group>"; };
 		B8ED1866189B0CC30043926C /* JSProfilingTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSProfilingTimer.h; sourceTree = "<group>"; };
 		B8ED1867189B0CC30043926C /* JSProfilingTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSProfilingTimer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,8 +129,6 @@
 				1918BE12138A5CD40097B25C /* JSImageLoader.m */,
 				B8A135D718987F8A000A2511 /* JSILCache.h */,
 				B8A135D818987F8A000A2511 /* JSILCache.m */,
-				B8A135DA18988137000A2511 /* JSILImage.h */,
-				B8A135DB18988137000A2511 /* JSILImage.m */,
 			);
 			name = JSImageLoader;
 			sourceTree = "<group>";
@@ -219,7 +214,6 @@
 				1918BE01138A5B8C0097B25C /* JSILAppDelegate.m in Sources */,
 				B8ED1868189B0CC30043926C /* JSProfilingTimer.m in Sources */,
 				1918BE07138A5B8C0097B25C /* JSILMainViewController.m in Sources */,
-				B8A135DC18988137000A2511 /* JSILImage.m in Sources */,
 				1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */,
 				193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */,
 				193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */,
