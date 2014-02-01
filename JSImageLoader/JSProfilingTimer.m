@@ -8,7 +8,7 @@
 
 #import "JSProfilingTimer.h"
 
-js_timer_t JSProfilingTimerStart() {
+js_timer_t JSProfilingTimerStart(void) {
 	struct timeval time;
 	gettimeofday(&time, NULL);
 	return time;

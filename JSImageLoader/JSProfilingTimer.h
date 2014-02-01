@@ -11,5 +11,5 @@
 
 typedef struct timeval js_timer_t;
 
-js_timer_t JSProfilingTimerStart();
+js_timer_t JSProfilingTimerStart(void);
 float JSProfilingTimerEnd(js_timer_t start);
