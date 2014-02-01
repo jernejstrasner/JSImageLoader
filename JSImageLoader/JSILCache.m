@@ -93,27 +93,11 @@
 	});
 }
 
+// TODO: Could probably be optimized by writing bitmap data to disk and then mapping into memory using mmap
+
 - (NSData *)dataFromImage:(UIImage *)image
 {
-	// We want to get uncompressed data here which is why we're not using UIImage(PNG|JPEG)Representation
-	CGImageRef img = image.CGImage;
-	size_t width = CGImageGetWidth(img);
-	size_t height = CGImageGetHeight(img);
-	size_t bpc = CGImageGetBitsPerComponent(img);
-	size_t bpr = CGImageGetBytesPerRow(img);
-	CGColorSpaceRef colorSpace = CGImageGetColorSpace(img);
-	CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(img);
-	
-	void *imgData = malloc(bpr * height);
-	
-	CGContextRef context = CGBitmapContextCreate(imgData, width, height, bpc, bpr, colorSpace, bitmapInfo);
-	CGContextDrawImage(context, CGContextGetClipBoundingBox(context), img);
-	
-	NSData *data = [[NSData alloc] initWithBytesNoCopy:imgData length:bpr * height freeWhenDone:YES];
-	
-	CGContextRelease(context);
-	
-	return data;
+	return UIImagePNGRepresentation(image);
 }
 
 - (UIImage *)imageFromData:(NSData *)data
