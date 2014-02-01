@@ -76,7 +76,7 @@
 		float fetch_t = JSProfilingTimerEnd(timer);
 		
 		UIImage *image;
-		float img_t;
+		float img_t = 0.0f;
 		if (imageData.length) {
 			js_timer_t img_timer = JSProfilingTimerStart();
 			image = [self imageFromData:imageData];
