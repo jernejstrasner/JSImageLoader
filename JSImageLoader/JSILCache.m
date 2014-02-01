@@ -8,6 +8,7 @@
 
 #import "JSILCache.h"
 
+#import "JSImageLoader.h"
 #import "JSProfilingTimer.h"
 
 #import <CommonCrypto/CommonCrypto.h>
@@ -59,7 +60,7 @@
 		[imageData writeToFile:path atomically:YES];
 		float write_time = JSProfilingTimerEnd(write_t);
 		
-		NSLog(@"[WRITE] %0.2fs | NSData: %0.2fs | Data size: %0.2fkB | %@", write_time, img_time, imageData.length/1024.0, urlString);
+		JSILLog(@"[WRITE] %0.2fs | NSData: %0.2fs | Data size: %0.2fkB", write_time, img_time, imageData.length/1024.0);
 	});
 }
 
@@ -83,7 +84,7 @@
 			img_t = JSProfilingTimerEnd(img_timer);
 		}
 		
-		NSLog(@"[READ] %0.2fs | UIImage: %0.2fs | Size: %0.2fkB | %@", fetch_t, img_t, imageData.length/1024.0, urlString);
+		JSILLog(@"[READ] %0.2fs | UIImage: %0.2fs | Size: %0.2fkB", fetch_t, img_t, imageData.length/1024.0);
 		
 		if (completion) {
 			dispatch_async(dispatch_get_main_queue(), ^{
@@ -123,7 +124,7 @@
 		NSError *deletionError;
 		[fm removeItemAtPath:cachePath error:&deletionError];
 		if (deletionError) {
-			NSLog(@"[ERROR] A file already exists and could not be deleted: %@", cachePath);
+			JSILLogA(@"[ERROR] A file already exists and could not be deleted: %@", cachePath);
 			return nil;
 		}
 	}
@@ -131,7 +132,7 @@
 		NSError *error;
 		[fm createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:&error];
 		if (error) {
-			NSLog(@"[ERROR] Cache directory could not be created at: %@", cachePath);
+			JSILLogA(@"[ERROR] Cache directory could not be created at: %@", cachePath);
 			return nil;
 		}
 	}

@@ -26,6 +26,17 @@
 //  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
+#define LOGGING 1
+
+#define JSILLogA(format, ...)		NSLog((@"[JSIMAGELOADER] " format), ##__VA_ARGS__);
+
+#if LOGGING
+#	define JSILLog(...)		JSILLogA(__VA_ARGS__)
+#else
+#	define JSILLog(...)
+#endif
+
+
 #import <UIKit/UIKit.h>
 
 
