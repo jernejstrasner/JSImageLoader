@@ -45,6 +45,8 @@
 {
 	[super viewDidLoad];
 	
+	[[JSImageLoader sharedInstance] setCacheSize:1024*2000];
+	
 	[self performBlockInBackground:^(void) {
 		NSArray *tags = @[@"ocean", @"stanford", @"tropic", @"mexico"];
 		NSMutableArray *receivedItems = [[NSMutableArray alloc] init];

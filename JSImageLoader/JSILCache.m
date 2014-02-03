@@ -15,6 +15,7 @@
 
 @interface JSILCache () {
 	dispatch_queue_t cacheQueue;
+	dispatch_queue_t cleaningQueue;
 }
 @end
 
@@ -42,6 +43,12 @@
 - (void)setupCache
 {
 	cacheQueue = dispatch_queue_create("com.jernejstrasner.imageloader.cache", DISPATCH_QUEUE_CONCURRENT);
+	cleaningQueue = dispatch_queue_create("com.jernejstrasner.imageloader.cleaning", DISPATCH_QUEUE_SERIAL);
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(cleanupCache)
+												 name:UIApplicationDidEnterBackgroundNotification
+											   object:nil];
 }
 
 - (void)cacheImage:(UIImage *)image forURL:(NSURL *)url
@@ -61,6 +68,46 @@
 		float write_time = JSProfilingTimerEnd(write_t);
 		
 		JSILLog(@"[WRITE] %0.2fs | NSData: %0.2fs | Data size: %0.2fkB", write_time, img_time, imageData.length/1024.0);
+	});
+}
+
+- (void)cleanupCache
+{
+	dispatch_async(cleaningQueue, ^{
+		
+		NSFileManager *fm = [NSFileManager defaultManager];
+		
+		NSUInteger cacheSize = 0;
+		
+		NSMutableArray *files = [[NSMutableArray alloc] init];
+
+		NSArray *fileKeys = @[NSURLContentModificationDateKey, NSURLTotalFileAllocatedSizeKey];
+		NSDirectoryEnumerator *dirEnum = [fm enumeratorAtURL:[NSURL fileURLWithPath:[self cachePath]]
+								  includingPropertiesForKeys:fileKeys
+													 options:0
+												errorHandler:nil];
+		for (NSURL *fileURL in dirEnum) {
+			NSDictionary *metadata = [fileURL resourceValuesForKeys:fileKeys error:nil];
+			if (metadata) {
+				NSUInteger fileSize = [metadata[NSURLTotalFileAllocatedSizeKey] unsignedIntegerValue];
+				cacheSize += fileSize;
+				[files addObject:@{@"url": fileURL, @"size": @(fileSize), @"date": metadata[NSURLContentModificationDateKey]}];
+			}
+		}
+		
+		if (cacheSize > self.cacheSize) {
+			NSUInteger targetSize = self.cacheSize*2/3;
+			
+			[files sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+			
+			for (NSDictionary *fd in files) {
+				if ([fm removeItemAtURL:fd[@"url"] error:nil]) {
+					cacheSize -= [fd[@"size"] unsignedIntegerValue];
+					NSLog(@"[CACHE] [%0.2fkB] Removed %@", (cacheSize/1024.0f), fd[@"url"]);
+					if (cacheSize <= targetSize) break;
+				}
+			}
+		}
 	});
 }
 
@@ -114,7 +161,7 @@
 	
 	if (!searchPaths.count) return nil;
 	
-	NSString *cachePath = [searchPaths[0] stringByAppendingPathComponent:@"com.jernejstrasner.jsimageloader"];
+	NSString *cachePath = [searchPaths[0] stringByAppendingPathComponent:@"com.jernejstrasner.jsimageloader.images"];
 	
 	NSFileManager *fm = [NSFileManager defaultManager];
 	BOOL isDir = NO;

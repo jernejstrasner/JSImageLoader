@@ -53,6 +53,18 @@ static NSUInteger const JSImageLoaderMaxDownloadConnections				= 1;
 	[_downloadQueue cancelAllOperations];
 }
 
+#pragma mark - Properties
+
+- (void)setCacheSize:(NSUInteger)cacheSize
+{
+	[[JSILCache sharedCache] setCacheSize:cacheSize];
+}
+
+- (NSUInteger)cacheSize
+{
+	return [[JSILCache sharedCache] cacheSize];
+}
+
 #pragma mark - Actions
 
 - (void)suspendImageDownloads

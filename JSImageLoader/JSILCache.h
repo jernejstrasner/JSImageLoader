@@ -13,6 +13,8 @@
 
 + (JSILCache *)sharedCache;
 
+@property (nonatomic, assign) NSUInteger cacheSize;
+
 - (void)cacheImage:(UIImage *)image forURL:(NSURL *)url;
 - (void)imageForURL:(NSURL *)url completion:(void(^)(UIImage *image))completion;
 

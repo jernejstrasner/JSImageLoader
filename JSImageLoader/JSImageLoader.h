@@ -45,6 +45,8 @@
 // Singleton
 + (JSImageLoader *)sharedInstance;
 
+@property (nonatomic, assign) NSUInteger cacheSize;
+
 // Queue actions
 - (void)suspendImageDownloads;
 - (void)resumeImageDownloads;
