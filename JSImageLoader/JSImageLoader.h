@@ -26,7 +26,7 @@
 //  Copyright 2011 JernejStrasner.com. All rights reserved.
 //
 
-#define LOGGING 1
+#define LOGGING 0
 
 #define JSILLogA(format, ...)		NSLog((@"[JSIMAGELOADER] " format), ##__VA_ARGS__);
 

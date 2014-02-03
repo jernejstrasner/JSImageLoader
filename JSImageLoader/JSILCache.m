@@ -54,18 +54,26 @@
 - (void)cacheImage:(UIImage *)image forURL:(NSURL *)url
 {
 	dispatch_async(cacheQueue, ^{
+#if LOGGING
 		js_timer_t img_t = JSProfilingTimerStart();
+#endif
 		NSData *imageData = [self dataFromImage:image];
+#if LOGGING
 		float img_time = JSProfilingTimerEnd(img_t);
+#endif
 		
 		NSString *urlString = [url absoluteString];
 		
 		NSString *hash = [self md5HashFromString:urlString];
 		NSString *path = [[self cachePath] stringByAppendingPathComponent:hash];
 		
+#if LOGGING
 		js_timer_t write_t = JSProfilingTimerStart();
+#endif
 		[imageData writeToFile:path atomically:YES];
+#if LOGGING
 		float write_time = JSProfilingTimerEnd(write_t);
+#endif
 		
 		JSILLog(@"[WRITE] %0.2fs | NSData: %0.2fs | Data size: %0.2fkB", write_time, img_time, imageData.length/1024.0);
 	});
@@ -103,7 +111,7 @@
 			for (NSDictionary *fd in files) {
 				if ([fm removeItemAtURL:fd[@"url"] error:nil]) {
 					cacheSize -= [fd[@"size"] unsignedIntegerValue];
-					NSLog(@"[CACHE] [%0.2fkB] Removed %@", (cacheSize/1024.0f), fd[@"url"]);
+					JSILLog(@"[CACHE] [%0.2fkB] Removed %@", (cacheSize/1024.0f), fd[@"url"]);
 					if (cacheSize <= targetSize) break;
 				}
 			}
@@ -115,20 +123,29 @@
 {
 	dispatch_async(cacheQueue, ^{
 		NSString *urlString = [url absoluteString];
-		
+#if LOGGING
 		js_timer_t timer = JSProfilingTimerStart();
+#endif
 		NSData *imageData;
 		NSString *hash = [self md5HashFromString:urlString];
 		NSString *path = [[self cachePath] stringByAppendingPathComponent:hash];
 		imageData = [[NSData alloc] initWithContentsOfFile:path];
+#if LOGGING
 		float fetch_t = JSProfilingTimerEnd(timer);
+#endif
 		
 		UIImage *image;
+#if LOGGING
 		float img_t = 0.0f;
+#endif
 		if (imageData.length) {
+#if LOGGING
 			js_timer_t img_timer = JSProfilingTimerStart();
+#endif
 			image = [self imageFromData:imageData];
+#if LOGGING
 			img_t = JSProfilingTimerEnd(img_timer);
+#endif
 		}
 		
 		JSILLog(@"[READ] %0.2fs | UIImage: %0.2fs | Size: %0.2fkB", fetch_t, img_t, imageData.length/1024.0);
