@@ -81,8 +81,10 @@
 
 - (void)cleanupCache
 {
-	UIBackgroundTaskIdentifier backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+	__block UIBackgroundTaskIdentifier backgroundTaskID;
+	backgroundTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
 		[[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+		backgroundTaskID = UIBackgroundTaskInvalid;
 	}];
 
 	dispatch_async(cleaningQueue, ^{
@@ -122,6 +124,7 @@
 		}
 		
 		[[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+		backgroundTaskID = UIBackgroundTaskInvalid;
 	});
 }
 
