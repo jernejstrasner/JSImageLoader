@@ -203,17 +203,13 @@
 	BOOL fileExists = [fm fileExistsAtPath:cachePath isDirectory:&isDir];
 	
 	if (fileExists && !isDir) {
-		NSError *deletionError;
-		[fm removeItemAtPath:cachePath error:&deletionError];
-		if (deletionError) {
+		if (![fm removeItemAtPath:cachePath error:nil]) {
 			JSILLogA(@"[ERROR] A file already exists and could not be deleted: %@", cachePath);
 			return nil;
 		}
 	}
 	else if (!fileExists) {
-		NSError *error;
-		[fm createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:&error];
-		if (error) {
+		if (![fm createDirectoryAtPath:cachePath withIntermediateDirectories:YES attributes:nil error:nil]) {
 			JSILLogA(@"[ERROR] Cache directory could not be created at: %@", cachePath);
 			return nil;
 		}
