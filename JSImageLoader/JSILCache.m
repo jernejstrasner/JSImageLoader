@@ -148,6 +148,15 @@
 #endif
 		}
 		
+		// Update modified date, to keep the cache from deleting it too early
+		if (image) {
+			NSURL *imageFileURL = [NSURL fileURLWithPath:path];
+			NSError *error;
+			if (![imageFileURL setResourceValue:[NSDate date] forKey:NSURLContentModificationDateKey error:&error]) {
+				JSILLog(@"[WARNING] The last modified date could not be updated for image %@. Error: %@", hash, error.localizedDescription);
+			}
+		}
+		
 		JSILLog(@"[READ] %0.2fs | UIImage: %0.2fs | Size: %0.2fkB", fetch_t, img_t, imageData.length/1024.0);
 		
 		if (completion) {
