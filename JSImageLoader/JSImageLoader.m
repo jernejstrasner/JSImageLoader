@@ -88,6 +88,11 @@ typedef void (^js_completion_handler_t)(NSError *error, UIImage *image, NSURL *i
 
 - (void)getImageAtURL:(NSURL *)url completionHandler:(js_completion_handler_t)completionHandler
 {
+	if (!url) {
+		JSILLogA(@"URL cannot be nil!");
+		return;
+	}
+	
 	[[JSILCache sharedCache] imageForURL:url completion:^(UIImage *image) {
 		// If we have the image call the completion block and return
 		if (image) {
