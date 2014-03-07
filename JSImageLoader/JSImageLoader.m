@@ -138,23 +138,23 @@ typedef void (^js_completion_handler_t)(NSError *error, UIImage *image, NSURL *i
 				}
 				else if (imageData.length && response) {
 					// Build an image from the data
-					UIImage *image = [UIImage imageWithData:imageData];
-					if (!image) {
-						NSError *error = [NSError errorWithDomain:JSImageLoaderErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}];
-						JSILExecuteBlockOnMainThread(completionHandler, error, nil, url, NO);
+					UIImage *loadedImage = [UIImage imageWithData:imageData];
+					if (!loadedImage) {
+						NSError *imageError = [NSError errorWithDomain:JSImageLoaderErrorDomain code:2 userInfo:@{NSLocalizedDescriptionKey: @"Invalid image data"}];
+						JSILExecuteBlockOnMainThread(completionHandler, imageError, nil, url, NO);
 						return;
 					}
 					else {
 						// Cache the image
-						[[JSILCache sharedCache] cacheImage:image forURL:url];
+						[[JSILCache sharedCache] cacheImage:loadedImage forURL:url];
 						// Callback
-						JSILExecuteBlockOnMainThread(completionHandler, nil, image, url, NO);
+						JSILExecuteBlockOnMainThread(completionHandler, nil, loadedImage, url, NO);
 						return;
 					}
 				}
 				else {
-					NSError *error = [NSError errorWithDomain:JSImageLoaderErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}];
-					JSILExecuteBlockOnMainThread(completionHandler, error, nil, url, NO);
+					NSError *loadingError = [NSError errorWithDomain:JSImageLoaderErrorDomain code:1 userInfo:@{NSLocalizedDescriptionKey: @"The image failed to download."}];
+					JSILExecuteBlockOnMainThread(completionHandler, loadingError, nil, url, NO);
 					return;
 				}
 			}
