@@ -14,7 +14,7 @@
 
 static NSString * const JSImageLoaderErrorDomain						= @"com.jernejstrasner.imageloader";
 static NSUInteger const JSImageLoaderNumberOfRetries					= 2;
-static NSUInteger const JSImageLoaderMaxDownloadConnections				= 1;
+static NSUInteger const JSImageLoaderMaxDownloadConnections				= 3;
 
 @interface JSImageLoader()
 @property (nonatomic, strong) NSOperationQueue *downloadQueue;
