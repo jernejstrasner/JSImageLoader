@@ -9,7 +9,9 @@
 #import "JSILCache.h"
 
 #import "JSImageLoader.h"
+#if LOGGING
 #import "JSProfilingTimer.h"
+#endif
 
 #import <CommonCrypto/CommonCrypto.h>
 
