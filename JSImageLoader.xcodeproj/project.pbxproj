@@ -131,6 +131,7 @@
 				B8A135D818987F8A000A2511 /* JSILCache.m */,
 			);
 			name = JSImageLoader;
+			path = ../Library;
 			sourceTree = "<group>";
 		};
 		1965E4B4138D7C1F0009EA4D /* Categories */ = {
