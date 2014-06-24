@@ -104,6 +104,7 @@
 				193557E1138BC60E00C9B018 /* JSILImageCell.m */,
 				B8ED1866189B0CC30043926C /* JSProfilingTimer.h */,
 				B8ED1867189B0CC30043926C /* JSProfilingTimer.m */,
+				B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */,
 				B8A135D4189863F8000A2511 /* Images.xcassets */,
 				1918BDF7138A5B8C0097B25C /* Supporting Files */,
 			);
@@ -117,7 +118,6 @@
 				1918BDF9138A5B8C0097B25C /* InfoPlist.strings */,
 				1918BDFC138A5B8C0097B25C /* JSImageLoader-Prefix.pch */,
 				1918BDFD138A5B8C0097B25C /* main.m */,
-				B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -280,7 +280,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JSImageLoader/JSImageLoader-Prefix.pch";
 				INFOPLIST_FILE = "JSImageLoader/JSImageLoader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = JSImageLoader;
 				WRAPPER_EXTENSION = app;
 			};
@@ -298,7 +298,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JSImageLoader/JSImageLoader-Prefix.pch";
 				INFOPLIST_FILE = "JSImageLoader/JSImageLoader-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				PRODUCT_NAME = JSImageLoader;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
