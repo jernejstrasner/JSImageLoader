@@ -15,12 +15,36 @@
 		1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE12138A5CD40097B25C /* JSImageLoader.m */; };
 		193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557D0138BBABA00C9B018 /* NSObject+Threading.m */; };
 		193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557E1138BC60E00C9B018 /* JSILImageCell.m */; };
+		B81E4BA6195B12D3009689C8 /* StringDigest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* StringDigest.swift */; };
+		B81E4BA7195B1706009689C8 /* ImageLoaderCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */; };
+		B81E4BA8195B1708009689C8 /* StringDigest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* StringDigest.swift */; };
+		B8674EC4195ABF1100706E58 /* StringDigestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8674EC3195ABF1100706E58 /* StringDigestTests.swift */; };
+		B8674ECD195AC08400706E58 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42AE1959845E009F7A7A /* ImageLoader.swift */; };
 		B8A135D3189863D5000A2511 /* Main-iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */; };
 		B8A135D5189863F8000A2511 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D4189863F8000A2511 /* Images.xcassets */; };
 		B8A135D918987F8A000A2511 /* JSILCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135D818987F8A000A2511 /* JSILCache.m */; };
 		B8ED1868189B0CC30043926C /* JSProfilingTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = B8ED1867189B0CC30043926C /* JSProfilingTimer.m */; };
 		B8FF42AD19597B38009F7A7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42AC19597B38009F7A7A /* AppDelegate.swift */; };
+		B8FF42AF1959845E009F7A7A /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42AE1959845E009F7A7A /* ImageLoader.swift */; };
+		B8FF42B119599290009F7A7A /* ImageLoaderCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B8674EC5195ABF1100706E58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1918BDE3138A5B8C0097B25C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1918BDEB138A5B8C0097B25C;
+			remoteInfo = JSImageLoader;
+		};
+		B8674ECA195ABF1200706E58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1918BDE3138A5B8C0097B25C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1918BDEB138A5B8C0097B25C;
+			remoteInfo = JSImageLoader;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1918BDEC138A5B8C0097B25C /* JSImageLoader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSImageLoader.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,6 +62,10 @@
 		193557D0138BBABA00C9B018 /* NSObject+Threading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Threading.m"; sourceTree = "<group>"; };
 		193557E0138BC60E00C9B018 /* JSILImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILImageCell.h; sourceTree = "<group>"; };
 		193557E1138BC60E00C9B018 /* JSILImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILImageCell.m; sourceTree = "<group>"; };
+		B81E4BA5195B12D3009689C8 /* StringDigest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringDigest.swift; sourceTree = "<group>"; };
+		B8674EBF195ABF1100706E58 /* JSImageLoaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSImageLoaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B8674EC2195ABF1100706E58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B8674EC3195ABF1100706E58 /* StringDigestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDigestTests.swift; sourceTree = "<group>"; };
 		B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main-iPhone.storyboard"; sourceTree = "<group>"; };
 		B8A135D4189863F8000A2511 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B8A135D718987F8A000A2511 /* JSILCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILCache.h; sourceTree = "<group>"; };
@@ -46,6 +74,8 @@
 		B8ED1867189B0CC30043926C /* JSProfilingTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSProfilingTimer.m; sourceTree = "<group>"; };
 		B8FF42AB19597B37009F7A7A /* JSImageLoader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSImageLoader-Bridging-Header.h"; sourceTree = "<group>"; };
 		B8FF42AC19597B38009F7A7A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B8FF42AE1959845E009F7A7A /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoaderCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +89,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B8674EBC195ABF1100706E58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -66,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				1918BDF6138A5B8C0097B25C /* JSImageLoader */,
+				B8674EC0195ABF1100706E58 /* JSImageLoaderTests */,
 				1918BDEF138A5B8C0097B25C /* Frameworks */,
 				1918BDED138A5B8C0097B25C /* Products */,
 			);
@@ -75,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				1918BDEC138A5B8C0097B25C /* JSImageLoader.app */,
+				B8674EBF195ABF1100706E58 /* JSImageLoaderTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -122,6 +161,9 @@
 		1918BE10138A5CC50097B25C /* JSImageLoader */ = {
 			isa = PBXGroup;
 			children = (
+				B81E4BA5195B12D3009689C8 /* StringDigest.swift */,
+				B8FF42AE1959845E009F7A7A /* ImageLoader.swift */,
+				B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */,
 				1918BE11138A5CD40097B25C /* JSImageLoader.h */,
 				1918BE12138A5CD40097B25C /* JSImageLoader.m */,
 				B8A135D718987F8A000A2511 /* JSILCache.h */,
@@ -138,6 +180,23 @@
 				193557D0138BBABA00C9B018 /* NSObject+Threading.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		B8674EC0195ABF1100706E58 /* JSImageLoaderTests */ = {
+			isa = PBXGroup;
+			children = (
+				B8674EC3195ABF1100706E58 /* StringDigestTests.swift */,
+				B8674EC1195ABF1100706E58 /* Supporting Files */,
+			);
+			path = JSImageLoaderTests;
+			sourceTree = "<group>";
+		};
+		B8674EC1195ABF1100706E58 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B8674EC2195ABF1100706E58 /* Info.plist */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +219,25 @@
 			productReference = 1918BDEC138A5B8C0097B25C /* JSImageLoader.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B8674EBE195ABF1100706E58 /* JSImageLoaderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B8674EC7195ABF1100706E58 /* Build configuration list for PBXNativeTarget "JSImageLoaderTests" */;
+			buildPhases = (
+				B8674EBB195ABF1100706E58 /* Sources */,
+				B8674EBC195ABF1100706E58 /* Frameworks */,
+				B8674EBD195ABF1100706E58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B8674EC6195ABF1100706E58 /* PBXTargetDependency */,
+				B8674ECB195ABF1200706E58 /* PBXTargetDependency */,
+			);
+			name = JSImageLoaderTests;
+			productName = JSImageLoaderTests;
+			productReference = B8674EBF195ABF1100706E58 /* JSImageLoaderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -170,6 +248,10 @@
 				TargetAttributes = {
 					1918BDEB138A5B8C0097B25C = {
 						DevelopmentTeam = 286DN3SPR7;
+					};
+					B8674EBE195ABF1100706E58 = {
+						CreatedOnToolsVersion = 6.0;
+						TestTargetID = 1918BDEB138A5B8C0097B25C;
 					};
 				};
 			};
@@ -186,6 +268,7 @@
 			projectRoot = "";
 			targets = (
 				1918BDEB138A5B8C0097B25C /* JSImageLoader */,
+				B8674EBE195ABF1100706E58 /* JSImageLoaderTests */,
 			);
 		};
 /* End PBXProject section */
@@ -201,6 +284,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B8674EBD195ABF1100706E58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -211,14 +301,41 @@
 				B8ED1868189B0CC30043926C /* JSProfilingTimer.m in Sources */,
 				B8FF42AD19597B38009F7A7A /* AppDelegate.swift in Sources */,
 				1918BE07138A5B8C0097B25C /* JSILMainViewController.m in Sources */,
+				B8FF42B119599290009F7A7A /* ImageLoaderCache.swift in Sources */,
+				B81E4BA6195B12D3009689C8 /* StringDigest.swift in Sources */,
 				1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */,
 				193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */,
 				193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */,
+				B8FF42AF1959845E009F7A7A /* ImageLoader.swift in Sources */,
 				B8A135D918987F8A000A2511 /* JSILCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B8674EBB195ABF1100706E58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B81E4BA8195B1708009689C8 /* StringDigest.swift in Sources */,
+				B81E4BA7195B1706009689C8 /* ImageLoaderCache.swift in Sources */,
+				B8674EC4195ABF1100706E58 /* StringDigestTests.swift in Sources */,
+				B8674ECD195AC08400706E58 /* ImageLoader.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B8674EC6195ABF1100706E58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1918BDEB138A5B8C0097B25C /* JSImageLoader */;
+			targetProxy = B8674EC5195ABF1100706E58 /* PBXContainerItemProxy */;
+		};
+		B8674ECB195ABF1200706E58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1918BDEB138A5B8C0097B25C /* JSImageLoader */;
+			targetProxy = B8674ECA195ABF1200706E58 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		1918BDF9138A5B8C0097B25C /* InfoPlist.strings */ = {
@@ -272,6 +389,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JSImageLoader/JSImageLoader-Prefix.pch";
@@ -294,6 +416,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JSImageLoader/JSImageLoader-Prefix.pch";
 				INFOPLIST_FILE = "JSImageLoader/JSImageLoader-Info.plist";
@@ -303,6 +430,92 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "JSImageLoader/JSImageLoader-Bridging-Header.h";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		B8674EC8195ABF1100706E58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/JSImageLoader.app/JSImageLoader";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = JSImageLoaderTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "JSImageLoader/JSImageLoader-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+			};
+			name = Debug;
+		};
+		B8674EC9195ABF1100706E58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/JSImageLoader.app/JSImageLoader";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = JSImageLoaderTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				METAL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "JSImageLoader/JSImageLoader-Bridging-Header.h";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -323,6 +536,15 @@
 			buildConfigurations = (
 				1918BE0E138A5B8C0097B25C /* Debug */,
 				1918BE0F138A5B8C0097B25C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B8674EC7195ABF1100706E58 /* Build configuration list for PBXNativeTarget "JSImageLoaderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B8674EC8195ABF1100706E58 /* Debug */,
+				B8674EC9195ABF1100706E58 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
