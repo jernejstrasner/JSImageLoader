@@ -52,6 +52,34 @@ class ImageLoaderCache {
 		}
 	}
 	
+	func fetchImage(url: NSURL, completion: (UIImage!) -> Void) {
+		dispatch_async(cacheQueue) {
+			let urlString = url.absoluteString
+			let hash = urlString.md5
+			
+			var image: UIImage! = nil
+			if let path = self.cachePath() {
+				let imageData = NSData(contentsOfFile: path.stringByAppendingPathComponent(hash))
+				if imageData.length > 0 {
+					image = self.imageFromData(imageData)
+					if image {
+						// Update modified date, to keep cache from deleting it too early
+						let imageFileURL = NSURL(fileURLWithPath: path)
+						var error: NSError?
+						imageFileURL.setResourceValue(NSDate(), forKey: NSURLContentModificationDateKey, error: &error)
+						if error {
+							Logger.warning("The last modified date could not be updated for image: \(error!.localizedDescription)")
+						}
+					}
+				}
+			}
+			
+			dispatch_async(dispatch_get_main_queue()) {
+				completion(image)
+			}
+		}
+	}
+	
 	func dataFromImage(image: UIImage!) -> NSData! {
 		return UIImagePNGRepresentation(image)
 	}
