@@ -15,9 +15,9 @@
 		1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE12138A5CD40097B25C /* JSImageLoader.m */; };
 		193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557D0138BBABA00C9B018 /* NSObject+Threading.m */; };
 		193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557E1138BC60E00C9B018 /* JSILImageCell.m */; };
-		B81E4BA6195B12D3009689C8 /* StringDigest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* StringDigest.swift */; };
+		B81E4BA6195B12D3009689C8 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* String+MD5.swift */; };
 		B81E4BA7195B1706009689C8 /* ImageLoaderCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */; };
-		B81E4BA8195B1708009689C8 /* StringDigest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* StringDigest.swift */; };
+		B81E4BA8195B1708009689C8 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* String+MD5.swift */; };
 		B81E4BAA195B3BA6009689C8 /* NSDate+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */; };
 		B81E4BAB195B3BC3009689C8 /* NSDate+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */; };
 		B8674EC4195ABF1100706E58 /* StringDigestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8674EC3195ABF1100706E58 /* StringDigestTests.swift */; };
@@ -64,7 +64,7 @@
 		193557D0138BBABA00C9B018 /* NSObject+Threading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Threading.m"; sourceTree = "<group>"; };
 		193557E0138BC60E00C9B018 /* JSILImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILImageCell.h; sourceTree = "<group>"; };
 		193557E1138BC60E00C9B018 /* JSILImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILImageCell.m; sourceTree = "<group>"; };
-		B81E4BA5195B12D3009689C8 /* StringDigest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringDigest.swift; sourceTree = "<group>"; };
+		B81E4BA5195B12D3009689C8 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Equatable.swift"; sourceTree = "<group>"; };
 		B8674EBF195ABF1100706E58 /* JSImageLoaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSImageLoaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8674EC2195ABF1100706E58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -164,7 +164,7 @@
 		1918BE10138A5CC50097B25C /* JSImageLoader */ = {
 			isa = PBXGroup;
 			children = (
-				B81E4BA5195B12D3009689C8 /* StringDigest.swift */,
+				B81E4BA5195B12D3009689C8 /* String+MD5.swift */,
 				B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */,
 				B8FF42AE1959845E009F7A7A /* ImageLoader.swift */,
 				B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */,
@@ -306,7 +306,7 @@
 				B8FF42AD19597B38009F7A7A /* AppDelegate.swift in Sources */,
 				1918BE07138A5B8C0097B25C /* JSILMainViewController.m in Sources */,
 				B8FF42B119599290009F7A7A /* ImageLoaderCache.swift in Sources */,
-				B81E4BA6195B12D3009689C8 /* StringDigest.swift in Sources */,
+				B81E4BA6195B12D3009689C8 /* String+MD5.swift in Sources */,
 				1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */,
 				193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */,
 				B81E4BAA195B3BA6009689C8 /* NSDate+Equatable.swift in Sources */,
@@ -320,7 +320,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B81E4BA8195B1708009689C8 /* StringDigest.swift in Sources */,
+				B81E4BA8195B1708009689C8 /* String+MD5.swift in Sources */,
 				B81E4BA7195B1706009689C8 /* ImageLoaderCache.swift in Sources */,
 				B8674EC4195ABF1100706E58 /* StringDigestTests.swift in Sources */,
 				B81E4BAB195B3BC3009689C8 /* NSDate+Equatable.swift in Sources */,
