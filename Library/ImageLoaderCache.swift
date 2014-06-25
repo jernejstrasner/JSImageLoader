@@ -32,6 +32,7 @@ class ImageLoaderCache {
 	}
 	
 	func cacheImage(image: UIImage, url: NSURL) {
+		// TODO: write profiling
 		dispatch_async(cacheQueue) {
 			let imageData = self.dataFromImage(image)
 			if (!imageData) {
@@ -39,7 +40,14 @@ class ImageLoaderCache {
 			}
 			else {
 				let urlString = url.absoluteString
+				let hash = urlString.md5
 				
+				if let path = self.cachePath() {
+					imageData.writeToFile(path.stringByAppendingPathComponent(hash), atomically: true)
+				}
+				else {
+					Logger.error("Could not write image to cache because a path does not exist!")
+				}
 			}
 		}
 	}
@@ -50,5 +58,35 @@ class ImageLoaderCache {
 	
 	func imageFromData(data: NSData!) -> UIImage! {
 		return UIImage(data: data)
+	}
+	
+	func cachePath() -> String! {
+		let searchPaths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.CachesDirectory, NSSearchPathDomainMask.UserDomainMask, true)
+		if searchPaths.count == 0 {
+			return nil
+		}
+		
+		let cachePath = searchPaths[0].stringByAppendingPathComponent("com.jernejstrasner.jsimageloader.images")
+		
+		let fm = NSFileManager.defaultManager()
+		var isDir: ObjCBool = false
+		let fileExists = fm.fileExistsAtPath(cachePath, isDirectory: &isDir)
+		
+		if fileExists && !Bool(isDir) {
+			let res = fm.removeItemAtPath(cachePath, error: nil)
+			if !res {
+				Logger.error("A file already exists and could not be deleted: \(cachePath)")
+				return nil
+			}
+		}
+		else if !fileExists {
+			let res = fm.createDirectoryAtPath(cachePath, withIntermediateDirectories: true, attributes: nil, error: nil)
+			if !res {
+				Logger.error("Cache directory could not be created at: \(cachePath)")
+				return nil
+			}
+		}
+		
+		return cachePath
 	}
 }
