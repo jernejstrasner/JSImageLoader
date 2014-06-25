@@ -21,6 +21,7 @@ class ImageLoaderCache {
 	// Private
 	let cacheQueue = dispatch_queue_create("com.jernejstrasner.imageloader.cache", DISPATCH_QUEUE_CONCURRENT)
 	let cleaningQueue = dispatch_queue_create("com.jernejstrasner.imageloader.cleaning", DISPATCH_QUEUE_SERIAL)
+	var backgroundTaskID = UIBackgroundTaskInvalid
 	
 	init() {
 		NSNotificationCenter.defaultCenter().addObserver(
@@ -77,6 +78,57 @@ class ImageLoaderCache {
 			dispatch_async(dispatch_get_main_queue()) {
 				completion(image)
 			}
+		}
+	}
+	
+	func cleanupCache() {
+		
+		struct FileMetadata {
+			var fileURL: NSURL
+			var fileSize: Int
+			var date: NSDate
+		}
+		
+		backgroundTaskID = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler() {
+			UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskID)
+			self.backgroundTaskID = UIBackgroundTaskInvalid
+		}
+		
+		dispatch_async(cleaningQueue) {
+			let fm = NSFileManager.defaultManager()
+			var cacheSize = 0
+			var files = FileMetadata[]()
+			let fileKeys = [NSURLContentModificationDateKey, NSURLTotalFileAllocatedSizeKey]
+			let dirEnumerator = fm.enumeratorAtURL(NSURL(fileURLWithPath: self.cachePath()),
+				includingPropertiesForKeys: fileKeys,
+				options: nil,
+				errorHandler: nil)
+			
+			while let fileURL = dirEnumerator.nextObject() as? NSURL {
+				if let metadata = fileURL.resourceValuesForKeys(fileKeys, error: nil) {
+					let fileSize = metadata[NSURLTotalFileAllocatedSizeKey].unsignedIntegerValue
+					cacheSize += fileSize
+					files += FileMetadata(fileURL: fileURL, fileSize: fileSize, date: metadata[NSURLContentModificationDateKey] as NSDate)
+				}
+			}
+			
+			if cacheSize > self.cacheSize {
+				let targetSize = self.cacheSize*2/3
+				
+				files.sort() { (a: FileMetadata, b: FileMetadata) in a.date < b.date }
+				
+				for fd: FileMetadata in files {
+					if fm.removeItemAtURL(fd.fileURL, error: nil) {
+						cacheSize -= fd.fileSize
+						if cacheSize <= targetSize {
+							break
+						}
+					}
+				}
+			}
+			
+			UIApplication.sharedApplication().endBackgroundTask(self.backgroundTaskID)
+			self.backgroundTaskID = UIBackgroundTaskInvalid
 		}
 	}
 	
