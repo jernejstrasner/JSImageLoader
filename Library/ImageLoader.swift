@@ -39,8 +39,6 @@ class ImageLoader {
 		return Singleton.instance
 	}
 	
-	var cacheSize: UInt = 1024*1024*10 // In bytes
-	
 	// Private
 	let downloadQueue = NSOperationQueue()
 	
