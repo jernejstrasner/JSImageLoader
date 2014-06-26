@@ -22,6 +22,7 @@
 		B81E4BAB195B3BC3009689C8 /* NSDate+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */; };
 		B8674EC4195ABF1100706E58 /* StringDigestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8674EC3195ABF1100706E58 /* StringDigestTests.swift */; };
 		B8674ECD195AC08400706E58 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42AE1959845E009F7A7A /* ImageLoader.swift */; };
+		B868680D195CCEBC00A9ECC8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B868680C195CCEBC00A9ECC8 /* Logger.swift */; };
 		B8A135D3189863D5000A2511 /* Main-iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */; };
 		B8A135D5189863F8000A2511 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D4189863F8000A2511 /* Images.xcassets */; };
 		B8A135D918987F8A000A2511 /* JSILCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135D818987F8A000A2511 /* JSILCache.m */; };
@@ -69,6 +70,7 @@
 		B8674EBF195ABF1100706E58 /* JSImageLoaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSImageLoaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8674EC2195ABF1100706E58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8674EC3195ABF1100706E58 /* StringDigestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDigestTests.swift; sourceTree = "<group>"; };
+		B868680C195CCEBC00A9ECC8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main-iPhone.storyboard"; sourceTree = "<group>"; };
 		B8A135D4189863F8000A2511 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B8A135D718987F8A000A2511 /* JSILCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILCache.h; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			children = (
 				B81E4BA5195B12D3009689C8 /* String+MD5.swift */,
 				B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */,
+				B868680C195CCEBC00A9ECC8 /* Logger.swift */,
 				B8FF42AE1959845E009F7A7A /* ImageLoader.swift */,
 				B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */,
 				1918BE11138A5CD40097B25C /* JSImageLoader.h */,
@@ -309,6 +312,7 @@
 				B81E4BA6195B12D3009689C8 /* String+MD5.swift in Sources */,
 				1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */,
 				193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */,
+				B868680D195CCEBC00A9ECC8 /* Logger.swift in Sources */,
 				B81E4BAA195B3BA6009689C8 /* NSDate+Equatable.swift in Sources */,
 				193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */,
 				B8FF42AF1959845E009F7A7A /* ImageLoader.swift in Sources */,

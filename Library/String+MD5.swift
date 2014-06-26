@@ -1,5 +1,5 @@
 //
-//  StringDigest.swift
+//  String+MD5.swift
 //  JSImageLoader
 //
 //  Created by Jernej Strasner on 6/25/14.
