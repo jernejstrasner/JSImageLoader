@@ -20,6 +20,7 @@
 		B81E4BA8195B1708009689C8 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* String+MD5.swift */; };
 		B81E4BAA195B3BA6009689C8 /* NSDate+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */; };
 		B81E4BAB195B3BC3009689C8 /* NSDate+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */; };
+		B848348B195D78FA006CE00E /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B868680C195CCEBC00A9ECC8 /* Logger.swift */; };
 		B8674EC4195ABF1100706E58 /* StringDigestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8674EC3195ABF1100706E58 /* StringDigestTests.swift */; };
 		B8674ECD195AC08400706E58 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42AE1959845E009F7A7A /* ImageLoader.swift */; };
 		B868680D195CCEBC00A9ECC8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B868680C195CCEBC00A9ECC8 /* Logger.swift */; };
@@ -325,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B81E4BA8195B1708009689C8 /* String+MD5.swift in Sources */,
+				B848348B195D78FA006CE00E /* Logger.swift in Sources */,
 				B81E4BA7195B1706009689C8 /* ImageLoaderCache.swift in Sources */,
 				B8674EC4195ABF1100706E58 /* StringDigestTests.swift in Sources */,
 				B81E4BAB195B3BC3009689C8 /* NSDate+Equatable.swift in Sources */,
