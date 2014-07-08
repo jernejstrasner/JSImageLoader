@@ -97,7 +97,7 @@ class ImageLoaderCache {
 		dispatch_async(cleaningQueue) {
 			let fm = NSFileManager.defaultManager()
 			var cacheSize = 0
-			var files = FileMetadata[]()
+			var files = [FileMetadata]()
 			let fileKeys = [NSURLContentModificationDateKey, NSURLTotalFileAllocatedSizeKey]
 			let dirEnumerator = fm.enumeratorAtURL(NSURL(fileURLWithPath: self.cachePath()),
 				includingPropertiesForKeys: fileKeys,
@@ -106,7 +106,8 @@ class ImageLoaderCache {
 			
 			while let fileURL = dirEnumerator.nextObject() as? NSURL {
 				if let metadata = fileURL.resourceValuesForKeys(fileKeys, error: nil) {
-					let fileSize = metadata[NSURLTotalFileAllocatedSizeKey].unsignedIntegerValue
+					let key = NSURLTotalFileAllocatedSizeKey as String
+					let fileSize = (metadata[key] as NSNumber).unsignedIntegerValue
 					cacheSize += fileSize
 					files += FileMetadata(fileURL: fileURL, fileSize: fileSize, date: metadata[NSURLContentModificationDateKey] as NSDate)
 				}
