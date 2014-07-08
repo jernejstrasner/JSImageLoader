@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9d5-Pg-8WT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6154.21" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9d5-Pg-8WT">
     <dependencies>
-        <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6153.13"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
         <scene sceneID="f72-Pp-Fds">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="9d5-Pg-8WT" customClass="JSILMainViewController" sceneMemberID="viewController">
-                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="fsf-Jn-PkO">
+                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="9d5-Pg-8WT" customClass="MainViewController" customModule="JSImageLoader" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="fsf-Jn-PkO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="1WK-JE-DBY">
@@ -19,23 +18,40 @@
                             <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Jot-jD-wnz" customClass="JSILImageCell">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="Jot-jD-wnz" customClass="ImageCell" customModule="JSImageLoader" customModuleProvider="target">
                                 <rect key="frame" x="10" y="10" width="92" height="92"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="92" height="92"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="The-Gx-Jtt">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="The-Gx-Jtt">
                                             <rect key="frame" x="0.0" y="0.0" width="92" height="92"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="The-Gx-Jtt" firstAttribute="top" secondItem="Jot-jD-wnz" secondAttribute="top" id="3pl-5w-EOS"/>
+                                    <constraint firstItem="The-Gx-Jtt" firstAttribute="leading" secondItem="Jot-jD-wnz" secondAttribute="leading" id="8py-Sn-oxr"/>
+                                    <constraint firstAttribute="trailing" secondItem="The-Gx-Jtt" secondAttribute="trailing" id="Pmj-3X-NNL"/>
+                                    <constraint firstAttribute="bottom" secondItem="The-Gx-Jtt" secondAttribute="bottom" id="wfM-qk-K3u"/>
+                                </constraints>
+                                <size key="customSize" width="92" height="92"/>
                                 <connections>
-                                    <outlet property="imageView" destination="The-Gx-Jtt" id="D04-nx-hm3"/>
+                                    <outlet property="imageView" destination="The-Gx-Jtt" id="BTe-Sv-330"/>
                                 </connections>
+                            </collectionViewCell>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell2" id="E2n-aZ-1Ah" customClass="ImageCell" customModule="JSImageLoader" customModuleProvider="target">
+                                <rect key="frame" x="10" y="10" width="92" height="92"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="92" height="92"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <size key="customSize" width="92" height="92"/>
                             </collectionViewCell>
                         </cells>
                         <connections>

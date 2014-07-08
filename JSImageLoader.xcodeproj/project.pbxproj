@@ -11,23 +11,23 @@
 		1918BDF3138A5B8C0097B25C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1918BDF2138A5B8C0097B25C /* Foundation.framework */; };
 		1918BDF5138A5B8C0097B25C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1918BDF4138A5B8C0097B25C /* CoreGraphics.framework */; };
 		1918BDFB138A5B8C0097B25C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1918BDF9138A5B8C0097B25C /* InfoPlist.strings */; };
-		1918BE07138A5B8C0097B25C /* JSILMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE06138A5B8C0097B25C /* JSILMainViewController.m */; };
 		1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE12138A5CD40097B25C /* JSImageLoader.m */; };
 		193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557D0138BBABA00C9B018 /* NSObject+Threading.m */; };
-		193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 193557E1138BC60E00C9B018 /* JSILImageCell.m */; };
 		B81E4BA6195B12D3009689C8 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* String+MD5.swift */; };
 		B81E4BA7195B1706009689C8 /* ImageLoaderCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */; };
 		B81E4BA8195B1708009689C8 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA5195B12D3009689C8 /* String+MD5.swift */; };
 		B81E4BAA195B3BA6009689C8 /* NSDate+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */; };
 		B81E4BAB195B3BC3009689C8 /* NSDate+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */; };
 		B848348B195D78FA006CE00E /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B868680C195CCEBC00A9ECC8 /* Logger.swift */; };
+		B8562B64196B4D0000599F19 /* ProfilingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8562B63196B4D0000599F19 /* ProfilingTimer.swift */; };
 		B8674EC4195ABF1100706E58 /* StringDigestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8674EC3195ABF1100706E58 /* StringDigestTests.swift */; };
 		B8674ECD195AC08400706E58 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42AE1959845E009F7A7A /* ImageLoader.swift */; };
 		B868680D195CCEBC00A9ECC8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B868680C195CCEBC00A9ECC8 /* Logger.swift */; };
 		B8A135D3189863D5000A2511 /* Main-iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D2189863D5000A2511 /* Main-iPhone.storyboard */; };
 		B8A135D5189863F8000A2511 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B8A135D4189863F8000A2511 /* Images.xcassets */; };
 		B8A135D918987F8A000A2511 /* JSILCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B8A135D818987F8A000A2511 /* JSILCache.m */; };
-		B8ED1868189B0CC30043926C /* JSProfilingTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = B8ED1867189B0CC30043926C /* JSProfilingTimer.m */; };
+		B8D11DC8195D7AEF002E589A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D11DC7195D7AEF002E589A /* MainViewController.swift */; };
+		B8D11DCA195D811A002E589A /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D11DC9195D811A002E589A /* ImageCell.swift */; };
 		B8FF42AD19597B38009F7A7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42AC19597B38009F7A7A /* AppDelegate.swift */; };
 		B8FF42AF1959845E009F7A7A /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42AE1959845E009F7A7A /* ImageLoader.swift */; };
 		B8FF42B119599290009F7A7A /* ImageLoaderCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FF42B019599290009F7A7A /* ImageLoaderCache.swift */; };
@@ -68,6 +68,7 @@
 		193557E1138BC60E00C9B018 /* JSILImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILImageCell.m; sourceTree = "<group>"; };
 		B81E4BA5195B12D3009689C8 /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		B81E4BA9195B3BA6009689C8 /* NSDate+Equatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Equatable.swift"; sourceTree = "<group>"; };
+		B8562B63196B4D0000599F19 /* ProfilingTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilingTimer.swift; sourceTree = "<group>"; };
 		B8674EBF195ABF1100706E58 /* JSImageLoaderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JSImageLoaderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8674EC2195ABF1100706E58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B8674EC3195ABF1100706E58 /* StringDigestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringDigestTests.swift; sourceTree = "<group>"; };
@@ -76,6 +77,8 @@
 		B8A135D4189863F8000A2511 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B8A135D718987F8A000A2511 /* JSILCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSILCache.h; sourceTree = "<group>"; };
 		B8A135D818987F8A000A2511 /* JSILCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSILCache.m; sourceTree = "<group>"; };
+		B8D11DC7195D7AEF002E589A /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		B8D11DC9195D811A002E589A /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		B8ED1866189B0CC30043926C /* JSProfilingTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSProfilingTimer.h; sourceTree = "<group>"; };
 		B8ED1867189B0CC30043926C /* JSProfilingTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSProfilingTimer.m; sourceTree = "<group>"; };
 		B8FF42AB19597B37009F7A7A /* JSImageLoader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JSImageLoader-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -140,6 +143,9 @@
 				1965E4B4138D7C1F0009EA4D /* Categories */,
 				1918BE10138A5CC50097B25C /* JSImageLoader */,
 				B8FF42AC19597B38009F7A7A /* AppDelegate.swift */,
+				B8D11DC7195D7AEF002E589A /* MainViewController.swift */,
+				B8D11DC9195D811A002E589A /* ImageCell.swift */,
+				B8562B63196B4D0000599F19 /* ProfilingTimer.swift */,
 				1918BE05138A5B8C0097B25C /* JSILMainViewController.h */,
 				1918BE06138A5B8C0097B25C /* JSILMainViewController.m */,
 				193557E0138BC60E00C9B018 /* JSILImageCell.h */,
@@ -306,16 +312,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8ED1868189B0CC30043926C /* JSProfilingTimer.m in Sources */,
+				B8D11DC8195D7AEF002E589A /* MainViewController.swift in Sources */,
 				B8FF42AD19597B38009F7A7A /* AppDelegate.swift in Sources */,
-				1918BE07138A5B8C0097B25C /* JSILMainViewController.m in Sources */,
+				B8562B64196B4D0000599F19 /* ProfilingTimer.swift in Sources */,
 				B8FF42B119599290009F7A7A /* ImageLoaderCache.swift in Sources */,
 				B81E4BA6195B12D3009689C8 /* String+MD5.swift in Sources */,
 				1918BE19138A5CD40097B25C /* JSImageLoader.m in Sources */,
 				193557D1138BBABA00C9B018 /* NSObject+Threading.m in Sources */,
+				B8D11DCA195D811A002E589A /* ImageCell.swift in Sources */,
 				B868680D195CCEBC00A9ECC8 /* Logger.swift in Sources */,
 				B81E4BAA195B3BA6009689C8 /* NSDate+Equatable.swift in Sources */,
-				193557E2138BC60E00C9B018 /* JSILImageCell.m in Sources */,
 				B8FF42AF1959845E009F7A7A /* ImageLoader.swift in Sources */,
 				B8A135D918987F8A000A2511 /* JSILCache.m in Sources */,
 			);
