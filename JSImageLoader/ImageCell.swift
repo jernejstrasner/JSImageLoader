@@ -10,13 +10,14 @@ import UIKit
 
 class ImageCell: UICollectionViewCell {
 	
-	@IBOutlet var imageView: UIImageView
+	@IBOutlet var imageView: UIImageView!
 	
 	var imageURL: NSURL? {
 	didSet {
-		if imageURL {
+		if imageURL != nil {
 			ImageLoader.sharedLoader.getImageAtURL(imageURL!) { error, image, url, cached in
-				if self.imageURL?.isEqual(url) {
+				println("\(self.imageURL) <=> \(url)")
+				if self.imageURL != nil && self.imageURL!.isEqual(url) {
 					self.imageView.image = image
 				}
 			}

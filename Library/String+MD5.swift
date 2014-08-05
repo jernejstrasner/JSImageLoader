@@ -14,7 +14,7 @@ extension String {
 		let str = self.cStringUsingEncoding(NSUTF8StringEncoding)
 		let strLen = UInt32(self.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
 		let digestLen = Int(CC_MD5_DIGEST_LENGTH)
-		let result = UnsafePointer<CUnsignedChar>.alloc(digestLen)
+		let result = UnsafeMutablePointer<CUnsignedChar>.alloc(digestLen)
 		
 		CC_MD5(str!, strLen, result)
 		
@@ -25,7 +25,7 @@ extension String {
 		
 		result.destroy()
 		
-		return String(hash)
+		return String(format: hash)
 	}
 	
 }

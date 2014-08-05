@@ -62,7 +62,7 @@ class ImageLoader {
 							returningResponse: &response,
 							error: &netError)
 						
-						if netError {
+						if netError != nil {
 							switch netError!.code {
 							case NSURLErrorUnsupportedURL, NSURLErrorBadURL, NSURLErrorBadServerResponse, NSURLErrorRedirectToNonExistentLocation, NSURLErrorFileDoesNotExist, NSURLErrorFileIsDirectory:
 								completion(error: netError, image: nil, url: url, cached: false)

@@ -68,7 +68,7 @@ class ImageLoaderCache {
 						let imageFileURL = NSURL(fileURLWithPath: path)
 						var error: NSError?
 						imageFileURL.setResourceValue(NSDate(), forKey: NSURLContentModificationDateKey, error: &error)
-						if error {
+						if error != nil {
 							Logger.warning("The last modified date could not be updated for image: \(error!.localizedDescription)")
 						}
 					}
@@ -109,7 +109,7 @@ class ImageLoaderCache {
 					let key = NSURLTotalFileAllocatedSizeKey as String
 					let fileSize = (metadata[key] as NSNumber).unsignedIntegerValue
 					cacheSize += fileSize
-					files += FileMetadata(fileURL: fileURL, fileSize: fileSize, date: metadata[NSURLContentModificationDateKey] as NSDate)
+					files.append(FileMetadata(fileURL: fileURL, fileSize: fileSize, date: metadata[NSURLContentModificationDateKey] as NSDate))
 				}
 			}
 			
